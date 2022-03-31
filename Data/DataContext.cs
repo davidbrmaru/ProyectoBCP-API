@@ -1,13 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using trabajo_final_API.Models;
+using ProyectoBCP_API.Models;
 
 #nullable disable
 
-namespace trabajo_final_API.Data
+namespace ProyectoBCP_API.Data
 {
-    public class DataContext : DbContext
+    public partial class DataContext : DbContext
     {
         public DataContext()
         {
@@ -18,15 +18,20 @@ namespace trabajo_final_API.Data
         {
         }
 
-        public virtual DbSet<TbSquad> TbSquads { get; set; }
-        public virtual DbSet<TbTribu> TbTribus { get; set; }
-        public virtual DbSet<TbAplicacion> TbAplicacion { get; internal set; }
+        public virtual DbSet<Application> Applications { get; set; }
+        public virtual DbSet<ApplicationTeamMember> ApplicationTeamMembers { get; set; }
+        public virtual DbSet<ChapterAreaLeader> ChapterAreaLeaders { get; set; }
+        public virtual DbSet<ChapterLeader> ChapterLeaders { get; set; }
+        public virtual DbSet<Squad> Squads { get; set; }
+        public virtual DbSet<TeamMember> TeamMembers { get; set; }
+        public virtual DbSet<Tribe> Tribes { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-BPRK56F;Database=bd_trabajo_final;Trusted_Connection=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-BPRK56F;Database=PROYECTOBCP;Trusted_Connection=True");
             }
         }
 
@@ -34,63 +39,392 @@ namespace trabajo_final_API.Data
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Modern_Spanish_CI_AS");
 
-            modelBuilder.Entity<TbSquad>(entity =>
+            modelBuilder.Entity<Application>(entity =>
             {
-                entity.ToTable("tb_squad");
+                entity.ToTable("APPLICATION");
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("numeric(18, 0)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.IdTribu)
-                    .HasColumnType("numeric(18, 0)")
-                    .HasColumnName("id_tribu");
-
-                entity.Property(e => e.SquadName)
+                entity.Property(e => e.BindingBlock)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("squad_name");
+                    .HasColumnName("BINDING_BLOCK");
 
-                entity.HasOne(d => d.IdTribuNavigation)
-                    .WithMany(p => p.TbSquads)
-                    .HasForeignKey(d => d.IdTribu)
+                entity.Property(e => e.CodAplicacion)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_APLICACION");
+
+                entity.Property(e => e.CodOwner)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_OWNER");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdSquad).HasColumnName("ID_SQUAD");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdSquadNavigation)
+                    .WithMany(p => p.Applications)
+                    .HasForeignKey(d => d.IdSquad)
                     .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_tb_squad_tb_squad");
+                    .HasConstraintName("FK_APPLICATION_SQUAD");
             });
 
-            modelBuilder.Entity<TbTribu>(entity =>
+            modelBuilder.Entity<ApplicationTeamMember>(entity =>
             {
-                entity.ToTable("tb_tribu");
+                entity.HasNoKey();
 
-                entity.Property(e => e.Id)
-                    .HasColumnType("numeric(18, 0)")
-                    .HasColumnName("id");
+                entity.ToTable("APPLICATION_TEAM_MEMBER");
 
-                entity.Property(e => e.TribuName)
+                entity.Property(e => e.Comentario)
+                    .HasMaxLength(1000)
+                    .IsUnicode(false)
+                    .HasColumnName("COMENTARIO");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.IdApplication).HasColumnName("ID_APPLICATION");
+
+                entity.Property(e => e.IdTeamMember).HasColumnName("ID_TEAM_MEMBER");
+
+                entity.Property(e => e.PorAsignado)
+                    .HasColumnType("decimal(3, 0)")
+                    .HasColumnName("POR_ASIGNADO");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdApplicationNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdApplication)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_APPLICATION_TEAM_MEMBER_APPLICATION");
+
+                entity.HasOne(d => d.IdTeamMemberNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdTeamMember)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_APPLICATION_TEAM_MEMBER_TEAM_MEMBER");
+            });
+
+            modelBuilder.Entity<ChapterAreaLeader>(entity =>
+            {
+                entity.ToTable("CHAPTER_AREA_LEADER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ApellidoMaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_MATERNO");
+
+                entity.Property(e => e.ApellidoPaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_PATERNO");
+
+                entity.Property(e => e.CodMatricula)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_MATRICULA");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.Nombres)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRES");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
+            modelBuilder.Entity<ChapterLeader>(entity =>
+            {
+                entity.ToTable("CHAPTER_LEADER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ApellidoMaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_MATERNO");
+
+                entity.Property(e => e.ApellidoPaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_PATERNO");
+
+                entity.Property(e => e.CodMatricula)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_MATRICULA");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdChapterAreaLeader).HasColumnName("ID_CHAPTER_AREA_LEADER");
+
+                entity.Property(e => e.Nombres)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("tribu_name");
+                    .HasColumnName("NOMBRES");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdChapterAreaLeaderNavigation)
+                    .WithMany(p => p.ChapterLeaders)
+                    .HasForeignKey(d => d.IdChapterAreaLeader)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_CHAPTER_LEADER_CHAPTER_AREA_LEADER");
             });
 
-
-            modelBuilder.Entity<TbAplicacion>(entity =>
+            modelBuilder.Entity<Squad>(entity =>
             {
-                entity.ToTable("tb_tribu");
+                entity.ToTable("SQUAD");
 
-                entity.Property(e => e.Id_Aplicacion)
-                    .HasColumnType("numeric(18, 0)")
-                    .HasColumnName("id");
+                entity.Property(e => e.Id).HasColumnName("ID");
 
-                entity.Property(e => e.Id_SquadApp)
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdTribe).HasColumnName("ID_TRIBE");
+
+                entity.Property(e => e.Nombre)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
-                    .HasColumnName("tribu_name");
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdTribeNavigation)
+                    .WithMany(p => p.Squads)
+                    .HasForeignKey(d => d.IdTribe)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SQUAD_TRIBE");
             });
 
+            modelBuilder.Entity<TeamMember>(entity =>
+            {
+                entity.ToTable("TEAM_MEMBER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.ApellidoMaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_MATERNO");
+
+                entity.Property(e => e.ApellidoPaterno)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("APELLIDO_PATERNO");
+
+                entity.Property(e => e.CodMatricula)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_MATRICULA");
+
+                entity.Property(e => e.Empresa)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("EMPRESA");
+
+                entity.Property(e => e.Especialidad)
+                    .HasMaxLength(20)
+                    .IsUnicode(false)
+                    .HasColumnName("ESPECIALIDAD");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdChapterLeader).HasColumnName("ID_CHAPTER_LEADER");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.Rol)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ROL");
+
+                entity.Property(e => e.RolInsourcing)
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("ROL_INSOURCING");
+
+                entity.Property(e => e.TipoProveedor)
+                    .IsRequired()
+                    .HasMaxLength(30)
+                    .IsUnicode(false)
+                    .HasColumnName("TIPO_PROVEEDOR");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdChapterLeaderNavigation)
+                    .WithMany(p => p.TeamMembers)
+                    .HasForeignKey(d => d.IdChapterLeader)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_TEAM_MEMBER_CHAPTER_LEADER");
+            });
+
+            modelBuilder.Entity<Tribe>(entity =>
+            {
+                entity.ToTable("TRIBE");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("date")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.Tipo)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false)
+                    .HasColumnName("TIPO");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
+            OnModelCreatingPartial(modelBuilder);
         }
 
+        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
