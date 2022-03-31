@@ -8,11 +8,9 @@ namespace trabajo_final_API.Models
     public partial class TbAplicacion
     {
 
-      
-        private int id_Squad;
 
-        public int Id { get; set; }
-        public int Id_SquadApp { get => id_Squad; set => id_Squad = value; }
+        public int Id_Aplicacion { get; set; }
+        public int Id_SquadApp { get; set; }
 
         public string Cod_Aplicacion { get; set; }
         public string Nombre { get; set; }
@@ -23,7 +21,7 @@ namespace trabajo_final_API.Models
         public string Usuario_Actualiza { get; set; }
         public int Flag_Activo { get; set; }
 
-       // public virtual TbAplicacion IdTAplicacionNavigation { get; set; }
+        public virtual TbAplicacion IdTAplicacionNavigation { get; set; }
 
     }
 }

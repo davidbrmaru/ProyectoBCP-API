@@ -20,7 +20,7 @@ namespace trabajo_final_API.Data
 
         public virtual DbSet<TbSquad> TbSquads { get; set; }
         public virtual DbSet<TbTribu> TbTribus { get; set; }
-     
+        public virtual DbSet<TbAplicacion> TbAplicacion { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -74,9 +74,23 @@ namespace trabajo_final_API.Data
                     .HasColumnName("tribu_name");
             });
 
-            OnModelCreatingPartial(modelBuilder);
+
+            modelBuilder.Entity<TbAplicacion>(entity =>
+            {
+                entity.ToTable("tb_tribu");
+
+                entity.Property(e => e.Id_Aplicacion)
+                    .HasColumnType("numeric(18, 0)")
+                    .HasColumnName("id");
+
+                entity.Property(e => e.Id_SquadApp)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("tribu_name");
+            });
+
         }
 
-        partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
     }
 }
