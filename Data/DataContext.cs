@@ -7,7 +7,7 @@ using trabajo_final_API.Models;
 
 namespace trabajo_final_API.Data
 {
-    public partial class DataContext : DbContext
+    public class DataContext : DbContext
     {
         public DataContext()
         {
@@ -20,6 +20,7 @@ namespace trabajo_final_API.Data
 
         public virtual DbSet<TbSquad> TbSquads { get; set; }
         public virtual DbSet<TbTribu> TbTribus { get; set; }
+     
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

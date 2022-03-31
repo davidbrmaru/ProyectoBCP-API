@@ -3,10 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProyectoBCP_API.Models.Response
+namespace trabajo_final_API.Models
 {
-    public class TbAplicacion
+    public partial class TbAplicacion
     {
+
+      
         private int id_Squad;
 
         public int Id { get; set; }
@@ -21,7 +23,7 @@ namespace ProyectoBCP_API.Models.Response
         public string Usuario_Actualiza { get; set; }
         public int Flag_Activo { get; set; }
 
-        public virtual TbAplicacion IdTAplicacionNavigation { get; set; }
+       // public virtual TbAplicacion IdTAplicacionNavigation { get; set; }
 
     }
 }
