@@ -63,11 +63,11 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("COD_OWNER");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
@@ -110,7 +110,7 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("COMENTARIO");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.IdApplication).HasColumnName("ID_APPLICATION");
@@ -165,11 +165,11 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("COD_MATRICULA");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
@@ -217,11 +217,11 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("COD_MATRICULA");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
@@ -259,11 +259,11 @@ namespace ProyectoBCP_API.Data
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
@@ -330,11 +330,11 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("ESPECIALIDAD");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
@@ -388,11 +388,11 @@ namespace ProyectoBCP_API.Data
                 entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.FecActualiza)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_ACTUALIZA");
 
                 entity.Property(e => e.FecIngreso)
-                    .HasColumnType("date")
+                    .HasColumnType("datetime")
                     .HasColumnName("FEC_INGRESO");
 
                 entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
