@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace trabajo_final_API.Service
 {
-    public interface IAplicacionService
+    public interface IApplicationService
     {
 
             public IQueryable<Application> GetAll();

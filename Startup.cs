@@ -8,13 +8,14 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using ProyectoBCP_API.Data;
+using ProyectoBCP_API.Service;
+using ProyectoBCP_API.Service.Impl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using trabajo_final_API.Data;
 using trabajo_final_API.Service;
-using trabajo_final_API.Service.Impl;
 
 namespace ProyectoBCP_API
 {
@@ -34,9 +35,9 @@ namespace ProyectoBCP_API
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-
-            services.AddScoped<ITribuService, TribuService>();
-            services.AddScoped<ISquadService, SquadService>();
+            
+            services.AddScoped<IApplicationService, ApplicationService>();
+            services.AddScoped<ITeamMemberService, TeamMemberService>();     
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

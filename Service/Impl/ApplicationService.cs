@@ -3,7 +3,6 @@ using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Models;
 using System.Linq;
 using trabajo_final_API.Models;
-using trabajo_final_API.Models.Request;
 using trabajo_final_API.Service;
 
 namespace ProyectoBCP_API.Service.Impl
