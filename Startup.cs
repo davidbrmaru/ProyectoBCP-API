@@ -39,6 +39,7 @@ namespace ProyectoBCP_API
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<ITeamMemberService, TeamMemberService>();
             services.AddScoped<IChapterAreaLeaderServices, ChapterAreaLeaderService>();
+            services.AddScoped<IChapterLeaderService, ChapterLeaderService>();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
