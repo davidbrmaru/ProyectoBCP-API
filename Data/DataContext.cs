@@ -30,7 +30,7 @@ namespace ProyectoBCP_API.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=DESKTOP-BPRK56F;Database=PROYECTOBCP;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer("Server=KATAKURI;Database=PROYECTOBCP;Trusted_Connection=True");
             }
         }
 
@@ -50,7 +50,7 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("BINDING_BLOCK");
 
-                entity.Property(e => e.CodAplicacion)
+                entity.Property(e => e.CodApplication)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)

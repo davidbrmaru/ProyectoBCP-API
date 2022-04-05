@@ -8,8 +8,8 @@ namespace ProyectoBCP_API.Models
     public partial class Application
     {
         public int Id { get; set; }
-        public string CodAplicacion { get; set; }
-        public string Nombre { get; set; }
+        public string CodApplication { get; set; }
+        public string Name { get; set; }
         public string CodOwner { get; set; }
         public int IdSquad { get; set; }
         public string BindingBlock { get; set; }

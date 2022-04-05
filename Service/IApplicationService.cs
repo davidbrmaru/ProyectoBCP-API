@@ -4,12 +4,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace trabajo_final_API.Service
+namespace ProyectoBCP_API.Service
 {
     public interface IApplicationService
     {
 
-            public IQueryable<Application> GetAll();
+        Task<List<Application>> GetApplication();
+        Task<Application> GetApplicationById(int id);
+        Task<Application> InsertApplication(Application application);
+        Task<Application> UpdateApplication(int id, Application application);
+        Task<Application> DeleteAsyncByid(int id, Application application);
+        Task<Application> DeleteAsync(int id);
         
 
     }
