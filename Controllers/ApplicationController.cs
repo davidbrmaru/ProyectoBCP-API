@@ -12,9 +12,9 @@ namespace ProyectoBCP_API.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationServices _applicationServices;
+        private readonly IApplicationService _applicationServices;
         private readonly ILog log;
-        public ApplicationController(IApplicationServices applicationServices)
+        public ApplicationController(IApplicationService applicationServices)
         {
             this._applicationServices = applicationServices;
             log = LogManager.GetLogger(typeof(ApplicationController));

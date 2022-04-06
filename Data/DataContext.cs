@@ -74,7 +74,7 @@ namespace ProyectoBCP_API.Data
 
                 entity.Property(e => e.IdSquad).HasColumnName("ID_SQUAD");
 
-                entity.Property(e => e.Nombre)
+                entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(100)
                     .IsUnicode(false)
