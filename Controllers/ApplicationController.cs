@@ -1,49 +1,37 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
-using ProyectoBCP_API.Service;
-using ProyectoBCP_API.Models;
-using System.Threading.Tasks;
-using log4net;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using trabajo_final_API.Models.Response;
+using trabajo_final_API.Service;
 
-namespace ProyectoBCP_API.Controllers
+namespace trabajo_final_API.Controllers
 {
-
     [Route("api/[controller]")]
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        private readonly IApplicationService _applicationServices;
-        private readonly ILog log;
-        public ApplicationController(IApplicationService applicationServices)
+        private readonly IAplicacionService _aplicacionService;
+        public ApplicationController(IAplicacionService aplicacionService)
         {
-            this._applicationServices = applicationServices;
-            log = LogManager.GetLogger(typeof(ApplicationController));
+            this._aplicacionService = aplicacionService;
         }
 
-        // GET: api/<ApplicationController>
         [HttpGet]
-        public async Task<IEnumerable<Application>> GetApplication()
+        public IActionResult GetAll()
         {
-            log.Info("Inicio Get Application");
-            return await _applicationServices.GetApplication();
-        }
+            WrapperResponse _response = new WrapperResponse();
 
-        // GET api/<ApplicationController>
-        [HttpGet("{id}")]
-        public async Task<Application> GetApplicationById(int id)
-        {
-            log.Info("Inicio Get Application By Id");
-            return await _applicationServices.GetApplicationById(id);
-        }
+            try
+            {
+                _response.Data = this._aplicacionService.GetAll();
+            }
+            catch (System.Exception)
+            {
 
-       /*
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAsync(int id, [FromBody] Application application)
-        {
-            log.Info("Inicio Delete Application ById");
-            var result = await _chapterAreaLeaderServices.DeleteAsyncByid(id, application);
-            return Ok(result);
-        }*/
+                _response = null;
+            }
+
+            return Ok(_response);
+
+        }
     }
 }
-
