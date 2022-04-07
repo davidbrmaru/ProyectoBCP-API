@@ -1,7 +1,9 @@
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using trabajo_final_API.Models.Response;
-using trabajo_final_API.Service;
+using System.Collections.Generic;
+using ProyectoBCP_API.Service;
+using ProyectoBCP_API.Models;
+using System.Threading.Tasks;
+using log4net;
 
 namespace trabajo_final_API.Controllers
 {
@@ -9,29 +11,21 @@ namespace trabajo_final_API.Controllers
     [ApiController]
     public class ApplicationController : ControllerBase
     {
-        private readonly IAplicacionService _aplicacionService;
-        public ApplicationController(IAplicacionService aplicacionService)
+        private readonly IApplicationService _aplicacionService;
+        private readonly ILog log;
+
+        public ApplicationController(IApplicationService aplicacionService)
         {
             this._aplicacionService = aplicacionService;
+            log = LogManager.GetLogger(typeof(ApplicationController));
         }
 
-        [HttpGet]
-        public IActionResult GetAll()
+    [HttpGet]
+    public async Task<IEnumerable<Application>> GetApplication()
         {
-            WrapperResponse _response = new WrapperResponse();
-
-            try
-            {
-                _response.Data = this._aplicacionService.GetAll();
-            }
-            catch (System.Exception)
-            {
-
-                _response = null;
-            }
-
-            return Ok(_response);
-
+            log.Info("Inicio Get Application");
+            return await _aplicacionService.GetApplication();
         }
+
     }
 }
