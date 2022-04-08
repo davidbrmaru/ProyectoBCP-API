@@ -33,6 +33,7 @@ namespace trabajo_final_API.Controllers
             log.Info("Inicio Get Application By Id");
             return await _aplicacionService.GetApplicationById(id);
         }
+   
     [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Application application)
         {
