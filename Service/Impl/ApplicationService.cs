@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ProyectoBCP_API.helpers;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -31,7 +32,7 @@ namespace ProyectoBCP_API.Service.Impl
             Application applicationToDelete = await GetApplicationById(id);
             applicationToDelete.FecActualiza = System.DateTime.Now;
             applicationToDelete.UsuarioActualiza = application.UsuarioActualiza;
-            applicationToDelete.FlgActivo = 0;
+            applicationToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(applicationToDelete);
             await _context.SaveChangesAsync();
             return applicationToDelete;
@@ -70,7 +71,7 @@ namespace ProyectoBCP_API.Service.Impl
                 applicationToInsert.FecIngreso = System.DateTime.Now;
                 applicationToInsert.FecActualiza = System.DateTime.Now;
                 applicationToInsert.UsuarioIngresa = application.UsuarioIngresa;
-                applicationToInsert.FlgActivo = application.FlgActivo;
+                applicationToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(applicationToInsert);
                 await _context.SaveChangesAsync();
@@ -92,8 +93,7 @@ namespace ProyectoBCP_API.Service.Impl
             applicationToUpd.BindingBlock = application.BindingBlock;
             applicationToUpd.FecActualiza = System.DateTime.Now;
             applicationToUpd.UsuarioActualiza = application.UsuarioActualiza;
-            applicationToUpd.FlgActivo = application.FlgActivo;
-
+            
             _dbSet.Update(applicationToUpd);
             await _context.SaveChangesAsync();
             return applicationToUpd;

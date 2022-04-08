@@ -1,5 +1,6 @@
 ﻿using ProyectoBCP_API.Models;
 using ProyectoBCP_API.Data;
+using ProyectoBCP_API.helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -42,7 +43,7 @@ namespace ProyectoBCP_API.Service.Impl
                 tribeToInsert.FecIngreso = System.DateTime.Now;
                 tribeToInsert.FecActualiza = System.DateTime.Now;
                 tribeToInsert.UsuarioIngresa = tribe.UsuarioIngresa;
-                tribeToInsert.FlgActivo = tribe.FlgActivo;
+                tribeToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(tribeToInsert);
                 await _context.SaveChangesAsync();
@@ -68,7 +69,7 @@ namespace ProyectoBCP_API.Service.Impl
             Tribe tribeToDelete = await GetTribeById(id);
             tribeToDelete.FecActualiza = System.DateTime.Now;
             tribeToDelete.UsuarioActualiza = tribe.UsuarioActualiza;
-            tribeToDelete.FlgActivo = 0;
+            tribeToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(tribeToDelete);
             await _context.SaveChangesAsync();
             return tribeToDelete;
