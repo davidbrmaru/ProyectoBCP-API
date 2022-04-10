@@ -1,5 +1,6 @@
 ﻿using ProyectoBCP_API.Models;
 using ProyectoBCP_API.Data;
+using ProyectoBCP_API.helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
@@ -41,7 +42,7 @@ namespace ProyectoBCP_API.Service.Impl
                 chapterLeaderToInsert.ApellidoMaterno = chapter.ApellidoMaterno;
                 chapterLeaderToInsert.FecIngreso = System.DateTime.Now;
                 chapterLeaderToInsert.UsuarioIngresa = chapter.UsuarioIngresa;
-                chapterLeaderToInsert.FlgActivo = chapter.FlgActivo;
+                chapterLeaderToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(chapterLeaderToInsert);
                 await _context.SaveChangesAsync();
@@ -62,7 +63,6 @@ namespace ProyectoBCP_API.Service.Impl
             chapterLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterLeaderToUp.FecActualiza = System.DateTime.Now;
             chapterLeaderToUp.UsuarioActualiza = chapter.UsuarioActualiza;
-            chapterLeaderToUp.FlgActivo = chapter.FlgActivo;
 
             _dbSet.Update(chapterLeaderToUp);
             await _context.SaveChangesAsync();
@@ -73,7 +73,7 @@ namespace ProyectoBCP_API.Service.Impl
             ChapterLeader chapterLeaderToDelete = await GetChapterById(id);
             chapterLeaderToDelete.FecActualiza = System.DateTime.Now;
             chapterLeaderToDelete.UsuarioActualiza = chapter.UsuarioActualiza;
-            chapterLeaderToDelete.FlgActivo = 0;
+            chapterLeaderToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(chapterLeaderToDelete);
             await _context.SaveChangesAsync();
             return chapterLeaderToDelete;

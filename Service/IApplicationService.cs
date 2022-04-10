@@ -15,7 +15,6 @@ namespace ProyectoBCP_API.Service
         Task<Application> UpdateApplication(int id, Application application);
         Task<Application> DeleteAsyncByid(int id, Application application);
         Task<Application> DeleteAsync(int id);
-        
-
+        Task<Application> GetApplicationByCode(string codigoApp);
     }
 }

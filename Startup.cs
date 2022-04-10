@@ -30,6 +30,10 @@ namespace ProyectoBCP_API
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddCors(options => options.AddDefaultPolicy(
+            builder => builder.AllowAnyOrigin()
+            //builder => builder.WithOrigins("")
+            ));
             services.AddDbContext<DataContext>(cfg =>
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
@@ -39,6 +43,8 @@ namespace ProyectoBCP_API
             services.AddScoped<ITeamMemberService, TeamMemberService>();
             services.AddScoped<IChapterAreaLeaderServices, ChapterAreaLeaderService>();
             services.AddScoped<IChapterLeaderService, ChapterLeaderService>();
+            services.AddScoped<ITribeService, TribeService>();
+            services.AddScoped<ISquadService, SquadService > ();
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
@@ -62,7 +68,7 @@ namespace ProyectoBCP_API
             app.UseHttpsRedirection();
 
             app.UseRouting();
-
+            app.UseCors();
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

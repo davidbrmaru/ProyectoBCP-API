@@ -25,6 +25,9 @@ namespace ProyectoBCP_API.Data
         public virtual DbSet<Squad> Squads { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
         public virtual DbSet<Tribe> Tribes { get; set; }
+        public virtual DbSet<Rol> Rols { get; set; }
+        public virtual DbSet<RolSubMenu> RolSubMenus { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -420,6 +423,129 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("USUARIO_INGRESA");
             });
+
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.ToTable("ROL");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.CodRol)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_ROL");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
+            modelBuilder.Entity<RolSubMenu>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("ROL_SUB_MENU");
+
+                entity.Property(e => e.IdSubMenu).HasColumnName("ID");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                //validar
+                entity.HasOne(d => d.IdRolNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.Id_Rol)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ROL_SUB_MENU_ROL");
+            });
+
+
+            modelBuilder.Entity<User>(entity =>
+            {
+                entity.ToTable("USER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CodMatricula)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_MATRICULA");
+
+                entity.Property(e => e.Correo)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("CORREO");
+
+
+                entity.Property(e => e.Password)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("PASSWORD");
+
+
+                entity.HasOne(d => d.IdRolNavigation)
+                    .WithMany(p => p.Users)
+                    .HasForeignKey(d => d.IdRol)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_USER_ROL");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
 
             OnModelCreatingPartial(modelBuilder);
         }

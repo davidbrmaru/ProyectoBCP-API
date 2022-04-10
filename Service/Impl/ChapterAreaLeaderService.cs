@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ProyectoBCP_API.helpers;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -41,7 +42,7 @@ namespace ProyectoBCP_API.Service.Impl
                 chapterAreaLeaderToInsert.ApellidoMaterno = chapter.ApellidoMaterno;
                 chapterAreaLeaderToInsert.FecIngreso = System.DateTime.Now;
                 chapterAreaLeaderToInsert.UsuarioIngresa = chapter.UsuarioIngresa;
-                chapterAreaLeaderToInsert.FlgActivo = chapter.FlgActivo;
+                chapterAreaLeaderToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(chapterAreaLeaderToInsert);
                 await _context.SaveChangesAsync();
@@ -56,16 +57,12 @@ namespace ProyectoBCP_API.Service.Impl
         public async Task<ChapterAreaLeader> UpdateChapterAreaLeader(int id,ChapterAreaLeader chapter)
         {
             ChapterAreaLeader chapterAreaLeaderToUp = await GetChapterById(id);
-            //chapterAreaLeaderToUp.CodMatricula = chapter.CodMatricula;
             chapterAreaLeaderToUp.Nombres = chapter.Nombres;
             chapterAreaLeaderToUp.ApellidoPaterno = chapter.ApellidoPaterno;
             chapterAreaLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
-            //chapterAreaLeaderToUp.FecIngreso = chapter.FecIngreso;
-            //chapterAreaLeaderToUp.UsuarioIngresa = chapter.UsuarioIngresa;
             chapterAreaLeaderToUp.FecActualiza = System.DateTime.Now;
             chapterAreaLeaderToUp.UsuarioActualiza=chapter.UsuarioActualiza;
-            chapterAreaLeaderToUp.FlgActivo=chapter.FlgActivo;
-
+            
             _dbSet.Update(chapterAreaLeaderToUp);
             await _context.SaveChangesAsync();
             return chapterAreaLeaderToUp;
@@ -75,7 +72,7 @@ namespace ProyectoBCP_API.Service.Impl
             ChapterAreaLeader chapterAreaLeaderToDelete = await GetChapterById(id);
             chapterAreaLeaderToDelete.FecActualiza = System.DateTime.Now;
             chapterAreaLeaderToDelete.UsuarioActualiza = chapter.UsuarioActualiza;
-            chapterAreaLeaderToDelete.FlgActivo = 0;
+            chapterAreaLeaderToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(chapterAreaLeaderToDelete);
             //_dbSet.Remove(chapterAreaLeaderToDelete);
             await _context.SaveChangesAsync();
