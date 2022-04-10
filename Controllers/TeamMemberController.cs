@@ -8,6 +8,7 @@ using ProyectoBCP_API.Service.Impl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using trabajo_final_API.Models.Response;
+using ProyectoBCP_API.Models;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -22,63 +23,48 @@ namespace ProyectoBCP_API.Controllers
                 _teamMemberService = teamMemberService;
                 log = LogManager.GetLogger(typeof(TeamMemberController));
         }
-
+           // GET: api/<TeamMemberController>
         [HttpGet]
-        public async Task<IEnumerable<IActionResult>> GetTeamMember()
+        public async Task<IEnumerable<TeamMember>> GetTeamMemberLeader()
         {
             log.Info("Inicio Get ChaptersArea");
-            return  this._teamMemberService.GetTeamMember();
-          
+            return await _teamMemberService.GetTeamMember();
         }
 
+        // GET api/<TeamMemberController>/5
+        [HttpGet("{id}")]
+        public async Task<TeamMember> GetTeamMemberControllerbyId(int id)
+        {
+            log.Info("Inicio Get ChaptersArea By Id");
+            return await _teamMemberService.GetTeamMemberById(id);
+        }
+
+        // POST api/<TeamMemberController>
         [HttpPost]
-        public IActionResult Add(TeamMemberRequest request)
+        public async Task<IActionResult> PostAsync([FromBody] TeamMember teamMember)
         {
-            WrapperResponse _respuesta = new WrapperResponse();
-            try
-            {
-                _teamMemberService.Add(request);
-                _respuesta.Data = request;
-            }
-            catch (System.Exception ex)
-            {
-                _respuesta.Data = null;
-            }
-            return Ok(_respuesta);
+            log.Info("Inicio Post ChaptersArea");
+            var result = await _teamMemberService.InsertTeamMember(teamMember);
+            return Ok(result);
         }
 
-        [HttpPut]
-        public IActionResult Edit(TeamMemberRequest request)
+        // PUT api/<TeamMemberController>/5
+        [HttpPut("{id}")]
+        public async Task<IActionResult> PutAsync(int id, [FromBody] TeamMember teamMember)
         {
-            WrapperResponse _respuesta = new WrapperResponse();
-            try
-            {
-                _teamMemberService.Edit(request);
-                _respuesta.Data = request;
-            }
-            catch (System.Exception ex)
-            {
-                _respuesta.Data = null;
-            }
-            return Ok(_respuesta);
+            log.Info("Inicio Put ChapterArea ById");
+            var result = await _teamMemberService.UpdateTeamMember(id, teamMember);
+            return Ok(result);
         }
 
+        // DELETE api/<TeamMemberController>/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(int Id)
+        public async Task<IActionResult> DeleteAsync(int id, [FromBody] TeamMember chapter)
         {
-            WrapperResponse _respuesta = new WrapperResponse();
-            try
-            {
-                TeamMemberRequest request = new TeamMemberRequest();
-                request.Id = Id;
-                _teamMemberService.Delete(request);
-                _respuesta.Data = request;
-            }
-            catch (System.Exception)
-            {
-                _respuesta.Data = null;
-            }
-            return Ok(_respuesta);
+            log.Info("Inicio Delete ChapterArea ById");
+            var result = await _teamMemberService.DeleteAsyncByid(id, chapter);
+            return Ok(result);
         }
+      
     }
 }
