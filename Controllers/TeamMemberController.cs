@@ -1,9 +1,12 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using log4net;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Service.Impl;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using trabajo_final_API.Models.Response;
 
 namespace ProyectoBCP_API.Controllers
@@ -13,29 +16,19 @@ namespace ProyectoBCP_API.Controllers
     public class TeamMemberController : ControllerBase
     {
         private readonly ITeamMemberService _teamMemberService;
-
+        private readonly ILog log;
         public TeamMemberController(ITeamMemberService teamMemberService)
         {           
                 _teamMemberService = teamMemberService;
+                log = LogManager.GetLogger(typeof(TeamMemberController));
         }
 
         [HttpGet]
-        public IActionResult GetAll()
+        public async Task<IEnumerable<IActionResult>> GetTeamMember()
         {
-            WrapperResponse _response = new WrapperResponse();
-
-            try
-            {
-                _response.Data = this._teamMemberService.GetAll();
-            }
-            catch (System.Exception)
-            {
-
-                _response = null;
-            }
-
-            return Ok(_response);
-
+            log.Info("Inicio Get ChaptersArea");
+            return  this._teamMemberService.GetTeamMember();
+          
         }
 
         [HttpPost]
