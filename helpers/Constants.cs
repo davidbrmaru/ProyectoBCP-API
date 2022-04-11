@@ -1,4 +1,4 @@
-﻿namespace ProyectoBCP_API.helpers
+﻿namespace ProyectoBCP_API.Helpers
 {
     public static class Constants
     {

@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="JWT" Version="7.2.2" />
     <PackageReference Include="log4net" Version="2.0.14" />
     <PackageReference Include="Log4NetCore.SqlServer" Version="1.0.0" />
     <PackageReference Include="MicroKnights.Log4NetAdoNetAppender" Version="2.2.0" />

@@ -1,6 +1,6 @@
 ﻿using ProyectoBCP_API.Models;
 using ProyectoBCP_API.Data;
-using ProyectoBCP_API.helpers;
+using ProyectoBCP_API.Helpers;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;

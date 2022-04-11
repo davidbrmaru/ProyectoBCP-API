@@ -7,8 +7,12 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Microsoft.OpenApi.Models;
 using ProyectoBCP_API.Data;
+using ProyectoBCP_API.Jwt;
+using ProyectoBCP_API.Jwt.Provider;
+using ProyectoBCP_API.Jwt.Provider.Impl;
 using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Service.Impl;
 using System;
@@ -38,7 +42,12 @@ namespace ProyectoBCP_API
             {
                 cfg.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
             });
-            
+
+            services.Configure<JwtSettings>(Configuration.GetSection("JWT"))
+                .AddSingleton(sp => sp.GetRequiredService<IOptions<JwtSettings>>().Value);
+
+
+            services.AddScoped<ITokenProvider, JwTokenProvider>();
             services.AddScoped<IApplicationService, ApplicationService>();
             services.AddScoped<ITeamMemberService, TeamMemberService>();
             services.AddScoped<IChapterAreaLeaderServices, ChapterAreaLeaderService>();

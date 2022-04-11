@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ProyectoBCP_API.helpers;
+using ProyectoBCP_API.Helpers;
 
 namespace ProyectoBCP_API.Service.Impl
 {
