@@ -517,6 +517,7 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("PASSWORD");
 
+                entity.Property(e => e.IdRol).HasColumnName("ID_ROL");
 
                 entity.HasOne(d => d.IdRolNavigation)
                     .WithMany(p => p.Users)

@@ -63,6 +63,7 @@ namespace ProyectoBCP_API.Service.Impl
             squadToUpd.Nombre = squad.Nombre;
             squadToUpd.FecActualiza = System.DateTime.Now;
             squadToUpd.UsuarioActualiza = squad.UsuarioActualiza;
+            squadToUpd.FlgActivo = Constants.FlgActivo;
 
             _dbSet.Update(squadToUpd);
             await _context.SaveChangesAsync();
