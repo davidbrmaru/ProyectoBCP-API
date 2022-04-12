@@ -54,7 +54,7 @@ namespace ProyectoBCP_API
             services.AddScoped<IChapterAreaLeaderServices, ChapterAreaLeaderService>();
             services.AddScoped<IChapterLeaderService, ChapterLeaderService>();
             services.AddScoped<ITribeService, TribeService>();
-            services.AddScoped<ISquadService, SquadService > ();
+            services.AddScoped<ISquadService, SquadService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRolService, RolService>();
 
@@ -66,6 +66,8 @@ namespace ProyectoBCP_API
 
             //Filters
             services.AddScoped<IsAuthenticatedAttribute>();
+            services.AddScoped<IMenuService, MenuService>();
+            services.AddScoped<ISubMenuService, SubMenuService>(); 
 
             services.AddSwaggerGen(c =>
             {
