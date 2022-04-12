@@ -2,18 +2,18 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ProyectoBCP_API.Data;
-using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Service.Impl;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using trabajo_final_API.Models.Response;
 using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Filters;
 
 namespace ProyectoBCP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [IsAuthenticated]
     public class TeamMemberController : ControllerBase
     {
         private readonly ITeamMemberService _teamMemberService;

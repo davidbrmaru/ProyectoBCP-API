@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Models;
-using ProyectoBCP_API.Models.Request;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
