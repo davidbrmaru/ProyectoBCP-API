@@ -36,7 +36,7 @@ namespace ProyectoBCP_API
                 options.Filters.Add(new CustomExceptionFilterAttribute());
             });
             services.AddCors(options => options.AddDefaultPolicy(
-            builder => builder.AllowAnyOrigin()
+            builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader()
             //builder => builder.WithOrigins("")
             ));
             services.AddDbContext<DataContext>(cfg =>
