@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
 using log4net;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860

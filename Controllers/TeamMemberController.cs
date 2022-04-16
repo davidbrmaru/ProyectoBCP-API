@@ -13,7 +13,7 @@ namespace ProyectoBCP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [IsAuthenticated]
+    //[IsAuthenticated]
     public class TeamMemberController : ControllerBase
     {
         private readonly ITeamMemberService _teamMemberService;

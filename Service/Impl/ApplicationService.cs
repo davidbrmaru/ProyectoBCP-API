@@ -64,12 +64,10 @@ namespace ProyectoBCP_API.Service.Impl
                 Application applicationToInsert = new Application();
                 applicationToInsert.CodApplication = application.CodApplication;
                 applicationToInsert.IdSquad = application.IdSquad;
-                applicationToInsert.Name = application.Name;
+                applicationToInsert.Nombre = application.Nombre;
                 applicationToInsert.CodOwner = application.CodOwner;
                 applicationToInsert.BindingBlock = application.BindingBlock;
-                applicationToInsert.UsuarioActualiza = application.UsuarioActualiza;
                 applicationToInsert.FecIngreso = System.DateTime.Now;
-                applicationToInsert.FecActualiza = System.DateTime.Now;
                 applicationToInsert.UsuarioIngresa = application.UsuarioIngresa;
                 applicationToInsert.FlgActivo = Constants.FlgActivo;
 
@@ -88,7 +86,7 @@ namespace ProyectoBCP_API.Service.Impl
             Application applicationToUpd = await GetApplicationById(id);
             applicationToUpd.CodApplication = application.CodApplication;
             applicationToUpd.IdSquad = application.IdSquad;
-            applicationToUpd.Name = application.Name;
+            applicationToUpd.Nombre = application.Nombre;
             applicationToUpd.CodOwner = application.CodOwner;
             applicationToUpd.BindingBlock = application.BindingBlock;
             applicationToUpd.FecActualiza = System.DateTime.Now;
