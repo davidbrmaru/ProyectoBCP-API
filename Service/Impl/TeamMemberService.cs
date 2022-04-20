@@ -4,17 +4,15 @@ using ProyectoBCP_API.Models;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProyectoBCP_API.Helpers;
 
 namespace ProyectoBCP_API.Service.Impl
 {
     public class TeamMemberService : ITeamMemberService
     {
-
-        private readonly DataContext _context;
+        private DataContext _context;
         private DbSet<TeamMember> _dbSet;
-        const int STATUS_ACTIVE = 1;
-        const int STATUS_INACTIVE = 0;
-
+        
         public TeamMemberService(DataContext context)
         {
             _context = context;
@@ -35,7 +33,7 @@ namespace ProyectoBCP_API.Service.Impl
             TeamMember teamMemberToDelete = await GetTeamMemberById(id);
             teamMemberToDelete.FecActualiza = System.DateTime.Now;
             teamMemberToDelete.UsuarioActualiza = teamMember.UsuarioActualiza;
-            teamMemberToDelete.FlgActivo = 0;
+            teamMemberToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(teamMemberToDelete);
             await _context.SaveChangesAsync();
             return teamMemberToDelete;
@@ -70,9 +68,7 @@ namespace ProyectoBCP_API.Service.Impl
                 teamMemberAdd.Especialidad = teamMember.Especialidad;
                 teamMemberAdd.FecIngreso = System.DateTime.Now;
                 teamMemberAdd.UsuarioIngresa = teamMember.UsuarioIngresa;
-                teamMemberAdd.FecActualiza = new System.DateTime();
-                teamMemberAdd.UsuarioActualiza = "";
-                teamMemberAdd.FlgActivo = STATUS_ACTIVE;
+                teamMemberAdd.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(teamMemberAdd);
                 await _context.SaveChangesAsync();
@@ -98,7 +94,7 @@ namespace ProyectoBCP_API.Service.Impl
             teamMemberUpdate.Especialidad = teamMember.Especialidad;            
             teamMemberUpdate.FecActualiza = System.DateTime.Now;
             teamMemberUpdate.UsuarioActualiza = teamMember.UsuarioActualiza;
-            teamMemberUpdate.FlgActivo = STATUS_ACTIVE;
+            teamMemberUpdate.FlgActivo = Constants.FlgActivo;
             _context.Update(teamMemberUpdate);
             _context.SaveChanges();
             return teamMemberUpdate;
