@@ -28,7 +28,7 @@ namespace ProyectoBCP_API.Service.Impl
 
             IList<ApplicationTeamMember> listAdd = new List<ApplicationTeamMember>();
 
-            allocationDto.aplications.ForEach(a => {
+            allocationDto.applications.ForEach(a => {
                     listAdd.Add(new ApplicationTeamMember()
                         {
                             IdTeamMember = allocationDto.idUser,

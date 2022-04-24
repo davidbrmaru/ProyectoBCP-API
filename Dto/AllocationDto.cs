@@ -6,6 +6,6 @@ namespace ProyectoBCP_API.Dto
     {
         public int idUser { get; set; }
         public string matricula { get; set; }
-        public List<ApplicationDto> aplications { get; set; }
+        public List<ApplicationDto> applications { get; set; }
     }
 }
