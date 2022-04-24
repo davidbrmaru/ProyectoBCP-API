@@ -217,6 +217,12 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("APELLIDO_PATERNO");
 
+                entity.Property(e => e.NombreChapter)
+                    .IsRequired()
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE_CHAPTER");
+
                 entity.Property(e => e.CodMatricula)
                     .IsRequired()
                     .HasMaxLength(6)

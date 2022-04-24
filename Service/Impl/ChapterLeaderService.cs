@@ -40,6 +40,7 @@ namespace ProyectoBCP_API.Service.Impl
                 chapterLeaderToInsert.Nombres = chapter.Nombres;
                 chapterLeaderToInsert.ApellidoPaterno = chapter.ApellidoPaterno;
                 chapterLeaderToInsert.ApellidoMaterno = chapter.ApellidoMaterno;
+                chapterLeaderToInsert.NombreChapter = chapter.NombreChapter;
                 chapterLeaderToInsert.FecIngreso = System.DateTime.Now;
                 chapterLeaderToInsert.UsuarioIngresa = chapter.UsuarioIngresa;
                 chapterLeaderToInsert.FlgActivo = Constants.FlgActivo;
@@ -60,6 +61,7 @@ namespace ProyectoBCP_API.Service.Impl
             chapterLeaderToUp.IdChapterAreaLeader= chapter.IdChapterAreaLeader;
             chapterLeaderToUp.Nombres = chapter.Nombres;
             chapterLeaderToUp.ApellidoPaterno = chapter.ApellidoPaterno;
+            chapterLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterLeaderToUp.FecActualiza = System.DateTime.Now;
             chapterLeaderToUp.UsuarioActualiza = chapter.UsuarioActualiza;
