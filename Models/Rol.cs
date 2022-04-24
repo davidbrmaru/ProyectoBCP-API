@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+
+#nullable disable
 
 namespace ProyectoBCP_API.Models
 {
@@ -23,5 +23,4 @@ namespace ProyectoBCP_API.Models
 
         public virtual ICollection<User> Users { get; set; }
     }
-
 }

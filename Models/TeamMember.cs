@@ -7,6 +7,11 @@ namespace ProyectoBCP_API.Models
 {
     public partial class TeamMember
     {
+        public TeamMember()
+        {
+            ApplicationTeamMembers = new HashSet<ApplicationTeamMember>();
+        }
+
         public int Id { get; set; }
         public string CodMatricula { get; set; }
         public string Nombre { get; set; }
@@ -25,5 +30,6 @@ namespace ProyectoBCP_API.Models
         public int FlgActivo { get; set; }
 
         public virtual ChapterLeader IdChapterLeaderNavigation { get; set; }
+        public virtual ICollection<ApplicationTeamMember> ApplicationTeamMembers { get; set; }
     }
 }

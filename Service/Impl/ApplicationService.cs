@@ -52,17 +52,17 @@ namespace ProyectoBCP_API.Service.Impl
 
         public async Task<Application> GetApplicationByCode(string codigoApp)
         {
-            return await _dbSet.Where(p => p.CodApplication == codigoApp).FirstOrDefaultAsync();
+            return await _dbSet.Where(p => p.CodAplicacion == codigoApp).FirstOrDefaultAsync();
         }
 
         public async Task<Application> InsertApplication(Application application)
         {
-            Application applicationToValidate = await GetApplicationByCode(application.CodApplication);
+            Application applicationToValidate = await GetApplicationByCode(application.CodAplicacion);
 
             if (applicationToValidate == null)
             {
                 Application applicationToInsert = new Application();
-                applicationToInsert.CodApplication = application.CodApplication;
+                applicationToInsert.CodAplicacion = application.CodAplicacion;
                 applicationToInsert.IdSquad = application.IdSquad;
                 applicationToInsert.Nombre = application.Nombre;
                 applicationToInsert.CodOwner = application.CodOwner;
@@ -84,7 +84,7 @@ namespace ProyectoBCP_API.Service.Impl
         public async Task<Application> UpdateApplication(int id, Application application)
         {
             Application applicationToUpd = await GetApplicationById(id);
-            applicationToUpd.CodApplication = application.CodApplication;
+            applicationToUpd.CodAplicacion = application.CodAplicacion;
             applicationToUpd.IdSquad = application.IdSquad;
             applicationToUpd.Nombre = application.Nombre;
             applicationToUpd.CodOwner = application.CodOwner;

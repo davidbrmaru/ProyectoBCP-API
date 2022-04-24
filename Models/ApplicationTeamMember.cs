@@ -7,6 +7,7 @@ namespace ProyectoBCP_API.Models
 {
     public partial class ApplicationTeamMember
     {
+        public int Id { get; set; }
         public int IdApplication { get; set; }
         public int IdTeamMember { get; set; }
         public decimal PorAsignado { get; set; }

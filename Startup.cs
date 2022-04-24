@@ -57,6 +57,7 @@ namespace ProyectoBCP_API
             services.AddScoped<ISquadService, SquadService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IRolService, RolService>();
+            services.AddScoped<IApplicationTeamMemberService, ApplicationTeamMemberService>();
 
 
             //Session

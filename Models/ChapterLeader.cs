@@ -18,6 +18,7 @@ namespace ProyectoBCP_API.Models
         public string Nombres { get; set; }
         public string ApellidoPaterno { get; set; }
         public string ApellidoMaterno { get; set; }
+        public string NombreChapter { get; set; }
         public DateTime FecIngreso { get; set; }
         public string UsuarioIngresa { get; set; }
         public DateTime? FecActualiza { get; set; }

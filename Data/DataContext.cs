@@ -22,21 +22,22 @@ namespace ProyectoBCP_API.Data
         public virtual DbSet<ApplicationTeamMember> ApplicationTeamMembers { get; set; }
         public virtual DbSet<ChapterAreaLeader> ChapterAreaLeaders { get; set; }
         public virtual DbSet<ChapterLeader> ChapterLeaders { get; set; }
-        public virtual DbSet<Squad> Squads { get; set; }
-        public virtual DbSet<TeamMember> TeamMembers { get; set; }
-        public virtual DbSet<Tribe> Tribes { get; set; }
+        public virtual DbSet<Log> Logs { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
         public virtual DbSet<Rol> Rols { get; set; }
         public virtual DbSet<RolSubMenu> RolSubMenus { get; set; }
-        public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<Squad> Squads { get; set; }
         public virtual DbSet<SubMenu> SubMenus { get; set; }
-
+        public virtual DbSet<TeamMember> TeamMembers { get; set; }
+        public virtual DbSet<Tribe> Tribes { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=KATAKURI;Database=PROYECTOBCP;Trusted_Connection=True");
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+                optionsBuilder.UseSqlServer("Server=DESKTOP-BPRK56F;Database=PROYECTOBCP;Trusted_Connection=True");
             }
         }
 
@@ -56,7 +57,7 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("BINDING_BLOCK");
 
-                entity.Property(e => e.CodApplication)
+                entity.Property(e => e.CodAplicacion)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -106,9 +107,9 @@ namespace ProyectoBCP_API.Data
 
             modelBuilder.Entity<ApplicationTeamMember>(entity =>
             {
-                entity.HasNoKey();
-
                 entity.ToTable("APPLICATION_TEAM_MEMBER");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
 
                 entity.Property(e => e.Comentario)
                     .HasMaxLength(1000)
@@ -134,13 +135,13 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("USUARIO_INGRESA");
 
                 entity.HasOne(d => d.IdApplicationNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ApplicationTeamMembers)
                     .HasForeignKey(d => d.IdApplication)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APPLICATION_TEAM_MEMBER_APPLICATION");
 
                 entity.HasOne(d => d.IdTeamMemberNavigation)
-                    .WithMany()
+                    .WithMany(p => p.ApplicationTeamMembers)
                     .HasForeignKey(d => d.IdTeamMember)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_APPLICATION_TEAM_MEMBER_TEAM_MEMBER");
@@ -182,7 +183,7 @@ namespace ProyectoBCP_API.Data
 
                 entity.Property(e => e.Nombres)
                     .IsRequired()
-                    .HasMaxLength(10)
+                    .HasMaxLength(100)
                     .IsUnicode(false)
                     .HasColumnName("NOMBRES");
 
@@ -234,6 +235,11 @@ namespace ProyectoBCP_API.Data
 
                 entity.Property(e => e.IdChapterAreaLeader).HasColumnName("ID_CHAPTER_AREA_LEADER");
 
+                entity.Property(e => e.NombreChapter)
+                    .HasMaxLength(200)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE_CHAPTER");
+
                 entity.Property(e => e.Nombres)
                     .IsRequired()
                     .HasMaxLength(100)
@@ -256,6 +262,156 @@ namespace ProyectoBCP_API.Data
                     .HasForeignKey(d => d.IdChapterAreaLeader)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_CHAPTER_LEADER_CHAPTER_AREA_LEADER");
+            });
+
+            modelBuilder.Entity<Log>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("LOG");
+
+                entity.Property(e => e.Date).HasColumnType("datetime");
+
+                entity.Property(e => e.Exception)
+                    .HasMaxLength(2000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Id).ValueGeneratedOnAdd();
+
+                entity.Property(e => e.Level)
+                    .IsRequired()
+                    .HasMaxLength(50)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Logger)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Message)
+                    .IsRequired()
+                    .HasMaxLength(4000)
+                    .IsUnicode(false);
+
+                entity.Property(e => e.Thread)
+                    .IsRequired()
+                    .HasMaxLength(255)
+                    .IsUnicode(false);
+            });
+
+            modelBuilder.Entity<Menu>(entity =>
+            {
+                entity.ToTable("MENU");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CodMenu)
+                    .IsRequired()
+                    .HasMaxLength(4)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_MENU");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.Tittle).HasColumnName("TITTLE");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
+            modelBuilder.Entity<Rol>(entity =>
+            {
+                entity.ToTable("ROL");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.CodRol)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("COD_ROL");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.Nombre)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NOMBRE");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+            });
+
+            modelBuilder.Entity<RolSubMenu>(entity =>
+            {
+                entity.HasNoKey();
+
+                entity.ToTable("ROL_SUB_MENU");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdRol).HasColumnName("ID_ROL");
+
+                entity.Property(e => e.IdSubMenu).HasColumnName("ID_SUB_MENU");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdRolNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdRol)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ROL_SUB_MENU_ROL");
+
+                entity.HasOne(d => d.IdSubMenuNavigation)
+                    .WithMany()
+                    .HasForeignKey(d => d.IdSubMenu)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_ROL_SUB_MENU_SUB_MENU");
             });
 
             modelBuilder.Entity<Squad>(entity =>
@@ -298,6 +454,59 @@ namespace ProyectoBCP_API.Data
                     .HasForeignKey(d => d.IdTribe)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_SQUAD_TRIBE");
+            });
+
+            modelBuilder.Entity<SubMenu>(entity =>
+            {
+                entity.ToTable("SUB_MENU");
+
+                entity.Property(e => e.Id).HasColumnName("ID");
+
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.Icon)
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("ICON");
+
+                entity.Property(e => e.IdMenu).HasColumnName("ID_MENU");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("NAME");
+
+                entity.Property(e => e.Url)
+                    .IsRequired()
+                    .HasMaxLength(100)
+                    .IsUnicode(false)
+                    .HasColumnName("URL");
+
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
+
+                entity.HasOne(d => d.IdMenuNavigation)
+                    .WithMany(p => p.SubMenus)
+                    .HasForeignKey(d => d.IdMenu)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_SUB_MENU");
             });
 
             modelBuilder.Entity<TeamMember>(entity =>
@@ -427,75 +636,6 @@ namespace ProyectoBCP_API.Data
                     .HasColumnName("USUARIO_INGRESA");
             });
 
-            modelBuilder.Entity<Rol>(entity =>
-            {
-                entity.ToTable("ROL");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMBRE");
-
-                entity.Property(e => e.CodRol)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_ROL");
-
-                entity.Property(e => e.FecActualiza)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_ACTUALIZA");
-
-                entity.Property(e => e.FecIngreso)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_INGRESO");
-
-                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
-
-                entity.Property(e => e.UsuarioActualiza)
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_ACTUALIZA");
-
-                entity.Property(e => e.UsuarioIngresa)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_INGRESA");
-            });
-
-            modelBuilder.Entity<RolSubMenu>(entity =>
-            {
-                entity.HasNoKey();
-
-                entity.ToTable("ROL_SUB_MENU");
-
-                entity.Property(e => e.IdSubMenu).HasColumnName("ID");
-
-                entity.Property(e => e.FecIngreso)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_INGRESO");
-
-                entity.Property(e => e.UsuarioIngresa)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_INGRESA");
-
-                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
-
-                //validar
-                entity.HasOne(d => d.IdRolNavigation)
-                    .WithMany()
-                    .HasForeignKey(d => d.Id_Rol)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_ROL_SUB_MENU_ROL");
-            });
-
-
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("USER");
@@ -513,6 +653,17 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("CORREO");
 
+                entity.Property(e => e.FecActualiza)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_ACTUALIZA");
+
+                entity.Property(e => e.FecIngreso)
+                    .HasColumnType("datetime")
+                    .HasColumnName("FEC_INGRESO");
+
+                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
+
+                entity.Property(e => e.IdRol).HasColumnName("ID_ROL");
 
                 entity.Property(e => e.Password)
                     .IsRequired()
@@ -520,130 +671,23 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("PASSWORD");
 
-                entity.Property(e => e.IdRol).HasColumnName("ID_ROL");
+                entity.Property(e => e.UsuarioActualiza)
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_ACTUALIZA");
+
+                entity.Property(e => e.UsuarioIngresa)
+                    .IsRequired()
+                    .HasMaxLength(6)
+                    .IsUnicode(false)
+                    .HasColumnName("USUARIO_INGRESA");
 
                 entity.HasOne(d => d.IdRolNavigation)
                     .WithMany(p => p.Users)
                     .HasForeignKey(d => d.IdRol)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USER_ROL");
-
-                entity.Property(e => e.FecActualiza)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_ACTUALIZA");
-
-                entity.Property(e => e.FecIngreso)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_INGRESO");
-
-                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
-
-                entity.Property(e => e.UsuarioActualiza)
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_ACTUALIZA");
-
-                entity.Property(e => e.UsuarioIngresa)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_INGRESA");
             });
-
-            modelBuilder.Entity<Menu>(entity =>
-            {
-                entity.ToTable("MENU");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.CodMenu)
-                    .IsRequired()
-                    .HasMaxLength(4)
-                    .IsUnicode(false)
-                    .HasColumnName("COD_MENU");
-
-                entity.Property(e => e.FecActualiza)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_ACTUALIZA");
-
-                entity.Property(e => e.FecIngreso)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_INGRESO");
-
-                entity.Property(e => e.Nombre)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("NOMBRE");
-
-                entity.Property(e => e.Tittle).HasColumnName("TITTLE");
-
-                entity.Property(e => e.UsuarioActualiza)
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_ACTUALIZA");
-                
-
-                entity.Property(e => e.UsuarioIngresa)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_INGRESA");
-            });
-
-            modelBuilder.Entity<SubMenu>(entity =>
-            {
-                entity.ToTable("SUB_MENU");
-
-                entity.Property(e => e.Id).HasColumnName("ID");
-
-                entity.Property(e => e.FecActualiza)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_ACTUALIZA");
-
-                entity.Property(e => e.FecIngreso)
-                    .HasColumnType("datetime")
-                    .HasColumnName("FEC_INGRESO");
-
-                entity.Property(e => e.FlgActivo).HasColumnName("FLG_ACTIVO");
-
-                entity.Property(e => e.Icon)
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("ICON");
-
-                entity.Property(e => e.IdMenu).HasColumnName("ID_MENU");
-
-                entity.Property(e => e.Name)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("NAME");
-
-                entity.Property(e => e.Url)
-                    .IsRequired()
-                    .HasMaxLength(100)
-                    .IsUnicode(false)
-                    .HasColumnName("URL");
-
-                entity.Property(e => e.UsuarioActualiza)
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_ACTUALIZA");
-
-                entity.Property(e => e.UsuarioIngresa)
-                    .IsRequired()
-                    .HasMaxLength(6)
-                    .IsUnicode(false)
-                    .HasColumnName("USUARIO_INGRESA");
-
-                entity.HasOne(d => d.IdMenuNavigation)
-                    .WithMany(p => p.SubMenus)
-                    .HasForeignKey(d => d.IdMenu)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_SUB_MENU");
-            });
-
 
             OnModelCreatingPartial(modelBuilder);
         }
