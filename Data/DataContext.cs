@@ -30,14 +30,18 @@ namespace ProyectoBCP_API.Data
         public virtual DbSet<SubMenu> SubMenus { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
         public virtual DbSet<Tribe> Tribes { get; set; }
+        public virtual DbSet<Rol> Rols { get; set; }
+        public virtual DbSet<RolSubMenu> RolSubMenus { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<Menu> Menus { get; set; }
+        public virtual DbSet<SubMenu> SubMenus { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-                optionsBuilder.UseSqlServer("Server=DESKTOP-BPRK56F;Database=PROYECTOBCP;Trusted_Connection=True");
+                optionsBuilder.UseSqlServer("Server=KATAKURI;Database=PROYECTOBCP;Trusted_Connection=True");
             }
         }
 
@@ -57,7 +61,7 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("BINDING_BLOCK");
 
-                entity.Property(e => e.CodAplicacion)
+                entity.Property(e => e.CodApplication)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -107,6 +111,7 @@ namespace ProyectoBCP_API.Data
 
             modelBuilder.Entity<ApplicationTeamMember>(entity =>
             {
+                entity.HasNoKey();
                 entity.ToTable("APPLICATION_TEAM_MEMBER");
 
                 entity.Property(e => e.Id).HasColumnName("ID");

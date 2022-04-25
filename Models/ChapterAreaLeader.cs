@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -24,5 +25,10 @@ namespace ProyectoBCP_API.Models
         public int FlgActivo { get; set; }
 
         public virtual ICollection<ChapterLeader> ChapterLeaders { get; set; }
+    }
+    public partial class ChapterAreaLeaderRequest : PaginadoTotalRequest
+    {
+        public List<ChapterAreaLeader> ChapterAreaLeaders { get; set; }
+
     }
 }

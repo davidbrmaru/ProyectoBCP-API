@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -27,5 +28,9 @@ namespace ProyectoBCP_API.Models
 
         public virtual ChapterAreaLeader IdChapterAreaLeaderNavigation { get; set; }
         public virtual ICollection<TeamMember> TeamMembers { get; set; }
+    }
+    public partial class ChapterLeaderRequest : PaginadoTotalRequest
+    {
+        public List<ChapterLeader> ChapterLeaders { get; set; }
     }
 }

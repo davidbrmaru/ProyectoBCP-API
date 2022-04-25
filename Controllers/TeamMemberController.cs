@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using ProyectoBCP_API.Models;
 using ProyectoBCP_API.Filters;
+using ProyectoBCP_API.Models.Request;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -23,12 +24,19 @@ namespace ProyectoBCP_API.Controllers
                 _teamMemberService = teamMemberService;
                 log = LogManager.GetLogger(typeof(TeamMemberController));
         }
-           // GET: api/<TeamMemberController>
+
         [HttpGet]
-        public async Task<IEnumerable<TeamMember>> GetTeamMemberLeader()
+        [Route("All")]
+        public async Task<IEnumerable<TeamMember>> GetAllTeamMember()
+        {
+            log.Info("Inicio Get All Chapters");
+            return await _teamMemberService.GetAllTeamMember();
+        }
+        [HttpGet]
+        public async Task<TeamMemberRequest> GetTeamMemberLeader([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Get ChaptersArea");
-            return await _teamMemberService.GetTeamMember();
+            return await _teamMemberService.GetTeamMember(PaginadoResponse);
         }
 
         // GET api/<TeamMemberController>/5

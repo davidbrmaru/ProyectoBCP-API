@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -21,12 +22,19 @@ namespace ProyectoBCP_API.Controllers
             log=LogManager.GetLogger(typeof(ChapterController));
         }
 
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<ChapterLeader>> GetAllChapterLeader()
+        {
+            log.Info("Inicio Get All Chapters");
+            return await _chapterLeaderServices.GetAllChapterLeader();
+        }
         // GET: api/<ChapterController>
         [HttpGet]
-        public async Task<IEnumerable<ChapterLeader>> GetChapterLeader()
+        public async Task<ChapterLeaderRequest> GetChapterLeader([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Get Chapters");
-            return await _chapterLeaderServices.GetChapterLeader();
+            return await _chapterLeaderServices.GetChapterLeader(PaginadoResponse);
         }
 
         // GET api/<ChapterController>/5

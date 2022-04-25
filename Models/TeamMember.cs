@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -28,8 +29,12 @@ namespace ProyectoBCP_API.Models
         public DateTime? FecActualiza { get; set; }
         public string UsuarioActualiza { get; set; }
         public int FlgActivo { get; set; }
-
         public virtual ChapterLeader IdChapterLeaderNavigation { get; set; }
         public virtual ICollection<ApplicationTeamMember> ApplicationTeamMembers { get; set; }
+    }
+    public partial class TeamMemberRequest : PaginadoTotalRequest
+    {
+        public List<TeamMember> TeamMembers { get; set; }
+
     }
 }
