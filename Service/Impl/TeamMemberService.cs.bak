@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Models;
-using ProyectoBCP_API.Models.Request;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -40,18 +39,11 @@ namespace ProyectoBCP_API.Service.Impl
             return teamMemberToDelete;
         }
 
-        public async Task<TeamMemberRequest> GetTeamMember(PaginadoRequest PaginadoResponse)
-        {
-            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
-            TeamMemberRequest response = new TeamMemberRequest();
-            response.TotalRows= await _dbSet.CountAsync();
-            response.TeamMembers= await _dbSet.Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
-            return response;
-        }
-        public async Task<List<TeamMember>> GetAllTeamMember()
+        public async Task<List<TeamMember>> GetTeamMember()
         {
             return await _dbSet.ToListAsync();
         }
+
         public async Task<TeamMember> GetTeamMemberById(int id)
         {
             return await _dbSet.Where(p => p.Id == id).FirstOrDefaultAsync();

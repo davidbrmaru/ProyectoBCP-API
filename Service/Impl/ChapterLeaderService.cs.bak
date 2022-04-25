@@ -5,8 +5,6 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
-using ProyectoBCP_API.Models.Request;
-
 namespace ProyectoBCP_API.Service.Impl
 {
     public class ChapterLeaderService : IChapterLeaderService
@@ -18,15 +16,7 @@ namespace ProyectoBCP_API.Service.Impl
             _context = context;
             _dbSet = context.Set<ChapterLeader>();
         }
-        public async Task<ChapterLeaderRequest> GetChapterLeader(PaginadoRequest PaginadoResponse)
-        {
-            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
-            ChapterLeaderRequest request = new ChapterLeaderRequest();
-            request.TotalRows = await _dbSet.CountAsync();
-            request.ChapterLeaders = await _dbSet.Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
-            return request;
-        }
-        public async Task<List<ChapterLeader>> GetAllChapterLeader()
+        public async Task<List<ChapterLeader>> GetChapterLeader()
         {
             return await _dbSet.ToListAsync();
         }
