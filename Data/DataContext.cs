@@ -30,12 +30,8 @@ namespace ProyectoBCP_API.Data
         public virtual DbSet<SubMenu> SubMenus { get; set; }
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
         public virtual DbSet<Tribe> Tribes { get; set; }
-        public virtual DbSet<Rol> Rols { get; set; }
-        public virtual DbSet<RolSubMenu> RolSubMenus { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        public virtual DbSet<Menu> Menus { get; set; }
-        public virtual DbSet<SubMenu> SubMenus { get; set; }
-
+        
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -61,7 +57,7 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("BINDING_BLOCK");
 
-                entity.Property(e => e.CodApplication)
+                entity.Property(e => e.CodAplicacion)
                     .IsRequired()
                     .HasMaxLength(4)
                     .IsUnicode(false)
@@ -111,7 +107,6 @@ namespace ProyectoBCP_API.Data
 
             modelBuilder.Entity<ApplicationTeamMember>(entity =>
             {
-                entity.HasNoKey();
                 entity.ToTable("APPLICATION_TEAM_MEMBER");
 
                 entity.Property(e => e.Id).HasColumnName("ID");
