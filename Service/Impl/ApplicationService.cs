@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,18 @@ namespace ProyectoBCP_API.Service.Impl
             _context = context;
             _dbSet = context.Set<Application>();
         }
-
+        public async Task<ApplicationRequest> GetApplication(PaginadoRequest PaginadoResponse)
+        {
+            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
+            ApplicationRequest request = new ApplicationRequest();
+            request.TotalRows = await _dbSet.CountAsync();
+            request.Applications = await _dbSet.Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            return request;
+        }
+        public async Task<List<Application>> GetAllApplication()
+        {
+            return await _dbSet.ToListAsync();
+        }
         public async Task<Application> DeleteAsync(int id)
         {
             Application applicationToDelete = await GetApplicationById(id);
@@ -40,10 +52,6 @@ namespace ProyectoBCP_API.Service.Impl
 
        
 
-        public async Task<List<Application>> GetApplication()
-        {
-            return await _dbSet.ToListAsync();
-        }
 
         public async Task<Application> GetApplicationById(int id)
         {

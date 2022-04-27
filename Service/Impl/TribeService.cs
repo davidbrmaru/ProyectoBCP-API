@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Helpers;
 using System.Linq;
@@ -20,7 +21,16 @@ namespace ProyectoBCP_API.Service.Impl
             _dbSet = context.Set<Tribe>();
         }
 
-        public async Task<List<Tribe>> GetTribe()
+        public async Task<TribeRequest> GetTribe(PaginadoRequest PaginadoResponse)
+        {
+            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
+            TribeRequest request = new TribeRequest();
+            request.TotalRows = await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
+            request.Tribes = await _dbSet.Where(x => x.FlgActivo == 1).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            return request;
+        }
+
+        public async Task<List<Tribe>> GetAllTribe()
         {
             return await _dbSet.ToListAsync();
         }

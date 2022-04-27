@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace ProyectoBCP_API.Service
     public interface IApplicationService
     {
 
-        Task<List<Application>> GetApplication();
+        Task<ApplicationRequest> GetApplication(PaginadoRequest PaginadoResponse);
+        Task<List<Application>> GetAllApplication();
         Task<Application> GetApplicationById(int id);
         Task<Application> InsertApplication(Application application);
         Task<Application> UpdateApplication(int id, Application application);

@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -21,10 +22,18 @@ namespace ProyectoBCP_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Squad>> GetSquad()
+        public async Task<SquadRequest> GetSquad([FromQuery] PaginadoRequest PaginadoResponse)
+        {
+            log.Info("Inicio Get Tribe");
+            return await _squadService.GetSquad(PaginadoResponse);
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<Squad>> GetAllSquad()
         {
             log.Info("Inicio Get Squad");
-            return await _squadService.GetSquad();
+            return await _squadService.GetAllSquad();
         }
 
         [HttpGet("{id}")]

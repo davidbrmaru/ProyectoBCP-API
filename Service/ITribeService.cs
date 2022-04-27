@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,8 @@ namespace ProyectoBCP_API.Service
     public interface ITribeService
     {
 
-        Task<List<Tribe>> GetTribe();
+        Task<TribeRequest> GetTribe(PaginadoRequest PaginadoResponse);
+        Task<List<Tribe>> GetAllTribe();
         Task<Tribe> GetTribeById(int id);
         Task<Tribe> InsertTribe(Tribe tribe);
         Task<Tribe> UpdateTribe(int id, Tribe tribe);

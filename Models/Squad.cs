@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -23,5 +24,11 @@ namespace ProyectoBCP_API.Models
 
         public virtual Tribe IdTribeNavigation { get; set; }
         public virtual ICollection<Application> Applications { get; set; }
+    }
+
+    public partial class SquadRequest : PaginadoTotalRequest
+    {
+        public List<Squad> Squads { get; set; }
+
     }
 }

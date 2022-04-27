@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 namespace trabajo_final_API.Controllers
 {
@@ -19,13 +20,22 @@ namespace trabajo_final_API.Controllers
             this._tribeService = tribeService;
             log = LogManager.GetLogger(typeof(TribeController));
         }
-   
+
         [HttpGet]
-            public async Task<IEnumerable<Tribe>> GetTribe()
+        public async Task<TribeRequest> GetTribe([FromQuery] PaginadoRequest PaginadoResponse)
+        {
+            log.Info("Inicio Get Tribe");
+            return await _tribeService.GetTribe(PaginadoResponse);
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<Tribe>> GetAllTribe()
             {
                 log.Info("Inicio Get Tribe");
-                return await _tribeService.GetTribe();
+                return await _tribeService.GetAllTribe();
             }
+
         [HttpGet("{id}")]
             public async Task<Tribe> GetApplicationById(int id)
             {
