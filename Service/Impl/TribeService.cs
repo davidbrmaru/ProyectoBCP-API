@@ -26,7 +26,7 @@ namespace ProyectoBCP_API.Service.Impl
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
             TribeRequest request = new TribeRequest();
             request.TotalRows = await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
-            request.Tribes = await _dbSet.Where(x => x.FlgActivo == 1).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            request.Tribes = await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
             return request;
         }
 

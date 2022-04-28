@@ -22,8 +22,8 @@ namespace ProyectoBCP_API.Service.Impl
         {
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
             ChapterAreaLeaderRequest request = new ChapterAreaLeaderRequest();
-            request.TotalRows= await _dbSet.CountAsync();
-            request.ChapterAreaLeaders= await _dbSet.Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            request.TotalRows= await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
+            request.ChapterAreaLeaders= await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
             return request;
         }
         public async Task<List<ChapterAreaLeader>> GetAllChapterAreaLeader()
