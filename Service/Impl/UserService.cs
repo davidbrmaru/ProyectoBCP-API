@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -21,7 +22,17 @@ namespace ProyectoBCP_API.Service.Impl
             _dbSet = context.Set<User>();
         }
 
-        public async Task<List<User>> GetUser(){
+
+        public async Task<UserRequest> GetUser(PaginadoRequest PaginadoResponse)
+        {
+            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
+            UserRequest request = new UserRequest();
+            request.TotalRows = await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
+            request.Users = await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            return request;
+        }
+
+        public async Task<List<User>> GetAllUser(){
            return await _dbSet.ToListAsync();
                 }
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -19,5 +20,11 @@ namespace ProyectoBCP_API.Models
         public int FlgActivo { get; set; }
 
         public virtual Rol IdRolNavigation { get; set; }
+    }
+
+    public partial class UserRequest : PaginadoTotalRequest
+    {
+        public List<User> Users { get; set; }
+
     }
 }

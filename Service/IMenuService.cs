@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,9 @@ namespace ProyectoBCP_API.Service
 {
     public interface IMenuService
     {
-        Task<List<Menu>> GetMenu();
+
+        Task<MenuRequest> GetMenu(PaginadoRequest PaginadoResponse);
+        Task<List<Menu>> GetAllMenu();
         Task<Menu> GetMenuById(int id);
         Task<Menu> InsertMenu(Menu menu);
         Task<Menu> UpdateMenu(int id, Menu menu);
