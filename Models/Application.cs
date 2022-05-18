@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -26,5 +27,11 @@ namespace ProyectoBCP_API.Models
 
         public virtual Squad IdSquadNavigation { get; set; }
         public virtual ICollection<ApplicationTeamMember> ApplicationTeamMembers { get; set; }
+    }
+
+    public partial class ApplicationRequest : PaginadoTotalRequest
+    {
+        public List<Application> Applications { get; set; }
+
     }
 }

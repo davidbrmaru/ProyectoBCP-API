@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -22,11 +23,20 @@ namespace ProyectoBCP_API.Controllers
             log = LogManager.GetLogger(typeof(UserController));
         }
 
+
         [HttpGet]
-        public async Task<IEnumerable<Rol>> GetRol()
+        public async Task<RolRequest> GetRol([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Get rol");
-            return await _rolService.GetRol();
+            return await _rolService.GetRol(PaginadoResponse);
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<Rol>> GetAllRol()
+        {
+            log.Info("Inicio Get all rol");
+            return await _rolService.GetAllRol();
         }
         [HttpGet("{id}")]
         public async Task<Rol> GetRolById(int id)

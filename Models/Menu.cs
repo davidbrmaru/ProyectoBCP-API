@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+
 #nullable disable
 
 namespace ProyectoBCP_API.Models
@@ -22,5 +23,11 @@ namespace ProyectoBCP_API.Models
         public bool Tittle { get; set; }
 
         public virtual ICollection<SubMenu> SubMenus { get; set; }
+    }
+
+    public partial class MenuRequest : PaginadoTotalRequest
+    {
+        public List<Menu> Menus { get; set; }
+
     }
 }

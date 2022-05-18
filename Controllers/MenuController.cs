@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -22,10 +23,18 @@ namespace ProyectoBCP_API.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Menu>> GetMenu()
+        public async Task<MenuRequest> GetMenu([FromQuery] PaginadoRequest PaginadoResponse)
         {
-            log.Info("Inicio Get menu");
-            return await _menuService.GetMenu();
+            log.Info("Inicio Get user");
+            return await _menuService.GetMenu(PaginadoResponse);
+        }
+
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<Menu>> GetAllMenu()
+        {
+            log.Info("Inicio Get all menu");
+            return await _menuService.GetAllMenu();
         }
         [HttpGet("{id}")]
         public async Task<Menu> GetMenuById(int id)

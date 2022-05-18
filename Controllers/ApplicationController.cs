@@ -4,6 +4,7 @@ using ProyectoBCP_API.Service;
 using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
+using ProyectoBCP_API.Models.Request;
 
 namespace trabajo_final_API.Controllers
 {
@@ -21,10 +22,18 @@ namespace trabajo_final_API.Controllers
         }
 
     [HttpGet]
-    public async Task<IEnumerable<Application>> GetApplication()
+    public async Task<ApplicationRequest> GetApplication([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Get Application");
-            return await _aplicacionService.GetApplication();
+            return await _aplicacionService.GetApplication(PaginadoResponse);
+        }
+
+    [HttpGet]
+    [Route("All")]
+        public async Task<IEnumerable<Application>> GetAllApplication()
+        {
+            log.Info("Inicio Get All Applications");
+            return await _aplicacionService.GetAllApplication();
         }
 
     [HttpGet("{id}")]
@@ -33,7 +42,9 @@ namespace trabajo_final_API.Controllers
             log.Info("Inicio Get Application By Id");
             return await _aplicacionService.GetApplicationById(id);
         }
-   
+
+     
+
     [HttpPost]
         public async Task<IActionResult> PostAsync([FromBody] Application application)
         {

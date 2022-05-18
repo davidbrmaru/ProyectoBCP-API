@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using ProyectoBCP_API.Data;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
@@ -18,7 +19,15 @@ namespace ProyectoBCP_API.Service.Impl
             _context = context;
             _dbSet = context.Set<SubMenu>();
         }
-        public async Task<List<SubMenu>> GetSubMenu()
+        public async Task<SubMenuRequest> GetSubMenu(PaginadoRequest PaginadoResponse)
+        {
+            int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
+            SubMenuRequest request = new SubMenuRequest();
+            request.TotalRows = await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
+            request.SubMenus = await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            return request;
+        }
+        public async Task<List<SubMenu>> GetAllSubMenu()
         {
             return await _dbSet.ToListAsync();
         }

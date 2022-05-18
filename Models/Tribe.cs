@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
 
 #nullable disable
@@ -22,5 +23,12 @@ namespace ProyectoBCP_API.Models
         public int FlgActivo { get; set; }
 
         public virtual ICollection<Squad> Squads { get; set; }
+
+        
+    }
+    public partial class TribeRequest : PaginadoTotalRequest
+    {
+        public List<Tribe> Tribes { get; set; }
+
     }
 }

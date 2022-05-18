@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ namespace ProyectoBCP_API.Service
 {
     public interface ISubMenuService
     {
-
-        Task<List<SubMenu>> GetSubMenu();
+        Task<SubMenuRequest> GetSubMenu(PaginadoRequest PaginadoResponse);
+        Task<List<SubMenu>> GetAllSubMenu();
         Task<SubMenu> GetSubMenuById(int id);
         Task<SubMenu> InsertSubMenu(SubMenu subMenu);
         Task<SubMenu> UpdateSubMenu(int id, SubMenu subMenu);

@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,8 +9,8 @@ namespace ProyectoBCP_API.Service
 {
     public interface IRolService
     {
-
-        Task<List<Rol>> GetRol();
+        Task<RolRequest> GetRol(PaginadoRequest PaginadoResponse);
+        Task<List<Rol>> GetAllRol();
         Task<Rol> GetRolById(int id);
         Task<Rol> InsertRol(Rol rol);
         Task<Rol> UpdateRol(int id, Rol rol);

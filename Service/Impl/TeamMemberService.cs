@@ -44,8 +44,8 @@ namespace ProyectoBCP_API.Service.Impl
         {
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
             TeamMemberRequest response = new TeamMemberRequest();
-            response.TotalRows= await _dbSet.CountAsync();
-            response.TeamMembers= await _dbSet.Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            response.TotalRows= await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
+            response.TeamMembers= await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
             return response;
         }
         public async Task<List<TeamMember>> GetAllTeamMember()

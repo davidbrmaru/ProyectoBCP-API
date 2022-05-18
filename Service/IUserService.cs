@@ -1,4 +1,5 @@
 ﻿using ProyectoBCP_API.Models;
+using ProyectoBCP_API.Models.Request;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,8 @@ namespace ProyectoBCP_API.Service
     public interface IUserService
     {
 
-        Task<List<User>> GetUser();
+        Task<UserRequest> GetUser(PaginadoRequest PaginadoResponse);
+        Task<List<User>> GetAllUser();
         Task<User> GetUserById(int id);
         Task<User> GetUserByCodMatriculaPassword(string codMatricula, string password);
         Task<User> InsertUser(User user);

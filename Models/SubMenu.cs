@@ -1,6 +1,7 @@
-﻿using System;
+﻿using ProyectoBCP_API.Models.Request;
+using System;
 using System.Collections.Generic;
-using System.Linq;
+
 #nullable disable
 
 namespace ProyectoBCP_API.Models
@@ -20,4 +21,10 @@ namespace ProyectoBCP_API.Models
 
         public virtual Menu IdMenuNavigation { get; set; }
     }
+    public partial class SubMenuRequest : PaginadoTotalRequest
+    {
+        public List<SubMenu> SubMenus { get; set; }
+
+    }
+
 }
