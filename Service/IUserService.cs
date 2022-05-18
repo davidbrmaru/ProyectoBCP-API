@@ -12,6 +12,7 @@ namespace ProyectoBCP_API.Service
 
         Task<List<User>> GetUser();
         Task<User> GetUserById(int id);
+        Task<User> GetUserByCodMatriculaPassword(string codMatricula, string password);
         Task<User> InsertUser(User user);
         Task<User> UpdateUser(int id, User user);
         Task<User> DeleteAsyncByid(int id, User user);

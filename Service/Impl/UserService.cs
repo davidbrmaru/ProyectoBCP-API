@@ -29,6 +29,10 @@ namespace ProyectoBCP_API.Service.Impl
         {
             return await _dbSet.Where(p => p.Id == id).FirstOrDefaultAsync();
         }
+        public async Task<User> GetUserByCodMatriculaPassword(string codMatricula, string password)
+        {
+            return await _dbSet.Where(p => p.CodMatricula == codMatricula && p.Password == password).FirstOrDefaultAsync();
+        }
 
         public async Task<User> InsertUser(User user)
         {
