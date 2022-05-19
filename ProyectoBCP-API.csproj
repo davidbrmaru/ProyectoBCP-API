@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>net5.0</TargetFramework>
-    <RootNamespace>ProyectoBCP_API</RootNamespace>
+    <RootNamespace>ProyectoBCP_API</RootNamespace>   
   </PropertyGroup>
 
   <ItemGroup>

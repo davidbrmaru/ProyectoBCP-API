@@ -31,7 +31,8 @@ namespace ProyectoBCP_API.Data
         public virtual DbSet<TeamMember> TeamMembers { get; set; }
         public virtual DbSet<Tribe> Tribes { get; set; }
         public virtual DbSet<User> Users { get; set; }
-        
+        public virtual DbSet<BaseActivo> BaseActivos { get; set; }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -641,7 +642,9 @@ namespace ProyectoBCP_API.Data
                     .IsUnicode(false)
                     .HasColumnName("USUARIO_INGRESA");
             });
-
+            modelBuilder.Entity<BaseActivo>(entity => {
+                entity.HasNoKey();
+                }) ;
             modelBuilder.Entity<User>(entity =>
             {
                 entity.ToTable("USER");
@@ -694,7 +697,7 @@ namespace ProyectoBCP_API.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_USER_ROL");
             });
-
+            
             OnModelCreatingPartial(modelBuilder);
         }
 
