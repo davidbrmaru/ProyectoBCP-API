@@ -14,12 +14,12 @@ namespace ProyectoBCP_API.Controllers
     [ApiController]
     public class LoginController
     {
-        private readonly ITeamMemberService _teamMemberService;
+        private readonly IUserService _userService;
         private readonly ITokenProvider _tokenProvider;
 
-        public LoginController(ITeamMemberService teamMemberService, ITokenProvider tokenProvider)
+        public LoginController(IUserService userService, ITokenProvider tokenProvider)
         {
-            this._teamMemberService = teamMemberService;
+            this._userService = userService;
             this._tokenProvider = tokenProvider;
         }
 
@@ -27,13 +27,13 @@ namespace ProyectoBCP_API.Controllers
         [HttpPost("login")]
         public async Task<ActionResult<SessionDto>> LoginUser(LoginDto loginDto)
         {
-            TeamMember teamMember = await _teamMemberService.GetTeamMemberByMatricula(loginDto.Matricula);
-            if (teamMember != null)
+            User user = await _userService.GetUserByCodMatriculaPassword(loginDto.Matricula, loginDto.Password);
+            if (user != null)
             {
-                var token = GenerateToken(teamMember.Id, teamMember.CodMatricula, "USER", true);
+                var token = GenerateToken(user.Id, user.CodMatricula, "USER", true);
                 UserDto userDto = new UserDto();
-                userDto._matricula = teamMember.CodMatricula;
-                userDto._nombre = teamMember.Nombre + "" + teamMember.ApellidoPaterno + "" + teamMember.ApellidoMaterno;
+                userDto._matricula = user.CodMatricula;
+                userDto._nombre = "Prueba"; //user.Nombre + "" + user.ApellidoPaterno + "" + user.ApellidoMaterno;
                 return new SessionDto(userDto, token);
             }
             else throw new UnauthorizedException();            
