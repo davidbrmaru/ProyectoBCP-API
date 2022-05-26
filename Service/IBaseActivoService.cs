@@ -7,5 +7,6 @@ namespace ProyectoBCP_API.Service
     public interface IBaseActivoService
     {
         Task<List<BaseActivo>> GetBaseActivos(string matricula);
+        Task<List<BaseActivo>> GetAllBaseActivos();
     }
 }

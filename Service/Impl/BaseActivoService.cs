@@ -32,5 +32,19 @@ namespace ProyectoBCP_API.Service.Impl
 
             return null;
         }
+
+        public async Task<List<BaseActivo>> GetAllBaseActivos()
+        {
+            SqlParameter matriculaParam = new SqlParameter
+            {
+                ParameterName = "MATRICULA",
+                Value = "---",
+                Direction = System.Data.ParameterDirection.Input
+            };
+            var result = await _dbSet.FromSqlRaw("exec OBTENER_BASE_ACTIVO @MATRICULA", matriculaParam).ToListAsync();
+            if (result != null && result.Count > 0) return result.ToList();
+
+            return null;
+        }
     }
 }

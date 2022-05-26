@@ -28,5 +28,13 @@ namespace ProyectoBCP_API.Controllers
            return await _activoService.GetBaseActivos(user.CodMatricula);
         }
 
+        [HttpGet]
+        [Route("All")]
+        public async Task<IEnumerable<BaseActivo>> GetAllBaseActivo()
+        {
+            log.Info("Inicio Get All Chapters");
+            return await _activoService.GetAllBaseActivos();
+        }
+
     }
 }
