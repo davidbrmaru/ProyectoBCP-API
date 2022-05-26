@@ -3,8 +3,8 @@
     public class ApplicationDto
     {
         public int idApplication { get; set; }
-        public decimal percentage { get; set; }
-        public string comment { get; set; }
+        public decimal porcentaje { get; set; }
+        public string comentario { get; set; }
 
     }
 }

@@ -33,8 +33,8 @@ namespace ProyectoBCP_API.Service.Impl
                         {
                             IdTeamMember = allocationDto.idUser,
                             IdApplication = a.idApplication,
-                            PorAsignado = a.percentage,
-                            Comentario = a.comment,
+                            PorAsignado = a.porcentaje,
+                            Comentario = a.comentario,
                             FecIngreso  = System.DateTime.Now,
                             UsuarioIngresa = allocationDto.matricula
                          }
