@@ -5,6 +5,7 @@ using log4net;
 using ProyectoBCP_API.Data;
 using ProyectoBCP_API.Service;
 using System.Collections.Generic;
+using ProyectoBCP_API.Models.Request;
 
 namespace ProyectoBCP_API.Controllers
 {
@@ -22,10 +23,10 @@ namespace ProyectoBCP_API.Controllers
         }     
 
         [HttpPost]
-        public async Task<IEnumerable<BaseActivo>> PostAsync([FromBody] User user)
+        public async Task<IEnumerable<BaseActivo>> PostAsync([FromBody] User user, [FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Base de activos");
-           return await _activoService.GetBaseActivos(user.CodMatricula);
+           return await _activoService.GetBaseActivos(user.CodMatricula, PaginadoResponse);
         }
 
         [HttpGet]
