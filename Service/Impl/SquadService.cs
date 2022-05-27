@@ -32,7 +32,7 @@ namespace ProyectoBCP_API.Service.Impl
 
         public async Task<List<Squad>> GetAllSquad()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(x => x.FlgActivo == 1).ToListAsync();
         }
 
         public async Task<Squad> GetSquadById(int id)

@@ -23,7 +23,7 @@ namespace ProyectoBCP_API.Controllers
         }     
 
         [HttpPost]
-        public async Task<IEnumerable<BaseActivo>> PostAsync([FromBody] User user, [FromQuery] PaginadoRequest PaginadoResponse)
+        public async Task<BaseActivoRequest> PostAsync([FromBody] User user, [FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Base de activos");
            return await _activoService.GetBaseActivos(user.CodMatricula, PaginadoResponse);

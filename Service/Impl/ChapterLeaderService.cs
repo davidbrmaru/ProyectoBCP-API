@@ -28,7 +28,7 @@ namespace ProyectoBCP_API.Service.Impl
         }
         public async Task<List<ChapterLeader>> GetAllChapterLeader()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(x => x.FlgActivo == 1).ToListAsync();
         }
         public async Task<ChapterLeader> GetChapterById(int id)
         {

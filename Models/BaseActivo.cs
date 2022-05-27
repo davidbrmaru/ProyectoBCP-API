@@ -1,9 +1,12 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using ProyectoBCP_API.Models.Request;
+using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using System.Collections.Generic;
 
 namespace ProyectoBCP_API.Models
 {
     [NotMapped]
-    public class BaseActivo
+    public partial class BaseActivo
     {
         public string nombre_cal { get; set; }
         public string bb { get; set; }
@@ -25,5 +28,11 @@ namespace ProyectoBCP_API.Models
         public string codigo_app_asignado { get; set; }
         public decimal porcentaje_asignado { get; set; }
         
+    }
+
+    public partial class BaseActivoRequest : PaginadoTotalRequest
+    {
+        public List<BaseActivo> BaseActivos { get; set; }
+
     }
 }

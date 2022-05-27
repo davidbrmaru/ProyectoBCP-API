@@ -20,9 +20,11 @@ namespace ProyectoBCP_API.Service.Impl
             _dbSet = context.Set<BaseActivo>();
         }
 
-        public async Task<List<BaseActivo>> GetBaseActivos(string matricula, PaginadoRequest PaginadoResponse)
+        public async Task<BaseActivoRequest> GetBaseActivos(string matricula, PaginadoRequest PaginadoResponse)
         {
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
+
+            BaseActivoRequest request = new BaseActivoRequest();
 
             SqlParameter matriculaParam = new SqlParameter
             {
@@ -45,8 +47,17 @@ namespace ProyectoBCP_API.Service.Impl
                 Direction = System.Data.ParameterDirection.Input
             };
 
-            var result = await _dbSet.FromSqlRaw("exec OBTENER_BASE_ACTIVO @MATRICULA, @PAGE, @SIZE", matriculaParam, pageParam, sizeParam).ToListAsync();
-            if (result != null && result.Count > 0) return result.ToList();
+            request.BaseActivos = await _dbSet.FromSqlRaw("exec OBTENER_ALL_BASE_ACTIVO @MATRICULA", matriculaParam).ToListAsync();
+            request.TotalRows = request.BaseActivos.Count;
+            request.BaseActivos = await _dbSet.FromSqlRaw("exec OBTENER_BASE_ACTIVO @MATRICULA, @PAGE, @SIZE", matriculaParam, pageParam, sizeParam).ToListAsync();
+            
+           
+
+
+            if (request.BaseActivos != null && request.BaseActivos.Count > 0) 
+                {
+                return request; 
+                }
 
             return null;
         }
@@ -59,7 +70,7 @@ namespace ProyectoBCP_API.Service.Impl
                 Value = "---",
                 Direction = System.Data.ParameterDirection.Input
             };
-            var result = await _dbSet.FromSqlRaw("exec OBTENER_BASE_ACTIVO @MATRICULA", matriculaParam).ToListAsync();
+            var result = await _dbSet.FromSqlRaw("exec OBTENER_ALL_BASE_ACTIVO @MATRICULA", matriculaParam).ToListAsync();
             if (result != null && result.Count > 0) return result.ToList();
 
             return null;

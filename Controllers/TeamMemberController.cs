@@ -33,7 +33,7 @@ namespace ProyectoBCP_API.Controllers
             return await _teamMemberService.GetAllTeamMember();
         }
         [HttpGet]
-        public async Task<TeamMemberRequest> GetTeamMemberLeader([FromQuery] PaginadoRequest PaginadoResponse)
+        public async Task<TeamMemberRequest> GetTeamMember([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Get ChaptersArea");
             return await _teamMemberService.GetTeamMember(PaginadoResponse);

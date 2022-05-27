@@ -50,7 +50,7 @@ namespace ProyectoBCP_API.Service.Impl
         }
         public async Task<List<TeamMember>> GetAllTeamMember()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(x => x.FlgActivo == 1).ToListAsync();
         }
         public async Task<TeamMember> GetTeamMemberById(int id)
         {

@@ -29,7 +29,7 @@ namespace ProyectoBCP_API.Service.Impl
         }
         public async Task<List<Application>> GetAllApplication()
         {
-            return await _dbSet.ToListAsync();
+            return await _dbSet.Where(x => x.FlgActivo == 1).ToListAsync();
         }
         public async Task<Application> DeleteAsync(int id)
         {
