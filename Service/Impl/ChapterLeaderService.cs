@@ -28,7 +28,10 @@ namespace ProyectoBCP_API.Service.Impl
         }
         public async Task<List<ChapterLeader>> GetAllChapterLeader()
         {
-            return await _dbSet.Where(x => x.FlgActivo == 1).ToListAsync();
+
+            var tm = await _dbSet.Where(x => x.FlgActivo == 1).Include(a => a.TeamMembers).ToListAsync();
+            
+            return tm;
         }
         public async Task<ChapterLeader> GetChapterById(int id)
         {
@@ -36,7 +39,8 @@ namespace ProyectoBCP_API.Service.Impl
         }
         public async Task<ChapterLeader> GetChapterByMatricula(string matricula)
         {
-            return await _dbSet.Where(p => p.CodMatricula == matricula).FirstOrDefaultAsync();
+            var chapter = await _dbSet.Where(p => p.CodMatricula == matricula).FirstOrDefaultAsync();
+            return chapter;
         }
         public async Task<ChapterLeader> InsertChapterLeader(ChapterLeader chapter)
         {
