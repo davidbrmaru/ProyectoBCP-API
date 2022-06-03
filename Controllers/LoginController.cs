@@ -24,7 +24,7 @@ namespace ProyectoBCP_API.Controllers
         }
 
 
-        [HttpPost("login")]
+        [HttpPost]
         public async Task<ActionResult<SessionDto>> LoginUser(LoginDto loginDto)
         {
             User user = await _userService.GetUserByCodMatriculaPassword(loginDto.Matricula, loginDto.Password);
@@ -33,7 +33,7 @@ namespace ProyectoBCP_API.Controllers
                 var token = GenerateToken(user.Id, user.CodMatricula, "USER", true);
                 UserDto userDto = new UserDto();
                 userDto._matricula = user.CodMatricula;
-                userDto._nombre = "Prueba"; //user.Nombre + "" + user.ApellidoPaterno + "" + user.ApellidoMaterno;
+                userDto._nombre = user.Correo;
                 return new SessionDto(userDto, token);
             }
             else throw new UnauthorizedException();            

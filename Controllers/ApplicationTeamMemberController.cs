@@ -7,11 +7,13 @@ using ProyectoBCP_API.Models;
 using ProyectoBCP_API.Service;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using ProyectoBCP_API.Filters;
 
 namespace ProyectoBCP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [IsAuthenticated]
     public class ApplicationTeamMemberController
     {
         private readonly IApplicationTeamMemberService _applicationTeamMemberService;

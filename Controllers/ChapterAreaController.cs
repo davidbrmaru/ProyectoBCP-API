@@ -5,13 +5,14 @@ using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
 using ProyectoBCP_API.Models.Request;
-
+using ProyectoBCP_API.Filters;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace ProyectoBCP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [IsAuthenticated]
     public class ChapterAreaController : ControllerBase
     {
         private readonly IChapterAreaLeaderServices _chapterAreaLeaderServices;

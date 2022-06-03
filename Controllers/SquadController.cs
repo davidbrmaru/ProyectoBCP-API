@@ -5,11 +5,12 @@ using ProyectoBCP_API.Models;
 using System.Threading.Tasks;
 using log4net;
 using ProyectoBCP_API.Models.Request;
-
+using ProyectoBCP_API.Filters;
 namespace ProyectoBCP_API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [IsAuthenticated]
     public class SquadController : ControllerBase
     {
         private readonly ISquadService _squadService;

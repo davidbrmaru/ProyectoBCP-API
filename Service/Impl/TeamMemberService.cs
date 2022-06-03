@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
+using System;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -13,11 +15,14 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private DataContext _context;
         private DbSet<TeamMember> _dbSet;
-        
-        public TeamMemberService(DataContext context)
+        private IUserSession _iUserSession;
+
+
+        public TeamMemberService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<TeamMember>();
+            _iUserSession = iUserSession;
         }
 
 
@@ -59,7 +64,7 @@ namespace ProyectoBCP_API.Service.Impl
 
         public async Task<TeamMember> InsertTeamMember(TeamMember teamMember)
         {
-            TeamMember teamMemberValidate = await GetTeamMemberByMatricula(teamMember.CodMatricula);
+            TeamMember teamMemberValidate = await GetTeamMemberByMatricula(teamMember.CodMatricula);            
 
             if (teamMemberValidate == null)
             {
@@ -75,7 +80,7 @@ namespace ProyectoBCP_API.Service.Impl
                 teamMemberAdd.RolInsourcing = teamMember.RolInsourcing;
                 teamMemberAdd.Especialidad = teamMember.Especialidad;
                 teamMemberAdd.FecIngreso = System.DateTime.Now;
-                teamMemberAdd.UsuarioIngresa = teamMember.UsuarioIngresa;
+                teamMemberAdd.UsuarioIngresa = _iUserSession.Username;
                 teamMemberAdd.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(teamMemberAdd);
