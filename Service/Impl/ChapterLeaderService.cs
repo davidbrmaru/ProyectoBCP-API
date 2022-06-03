@@ -23,7 +23,7 @@ namespace ProyectoBCP_API.Service.Impl
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
             ChapterLeaderRequest request = new ChapterLeaderRequest();
             request.TotalRows = await _dbSet.Where(x => x.FlgActivo == 1).CountAsync();
-            request.ChapterLeaders = await _dbSet.Where(x => x.FlgActivo == 1).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
+            request.ChapterLeaders = await _dbSet.Where(x => x.FlgActivo == 1).Include(a => a.TeamMembers).OrderByDescending(x => x.Id).Skip(beginRecord).Take(PaginadoResponse.PageSize).ToListAsync();
             return request;
         }
         public async Task<List<ChapterLeader>> GetAllChapterLeader()
