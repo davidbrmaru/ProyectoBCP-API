@@ -6,6 +6,7 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -14,11 +15,13 @@ namespace ProyectoBCP_API.Service.Impl
 
         private readonly DataContext _context;
         private DbSet<Tribe> _dbSet;
+        private IUserSession _iUserSession;
 
-        public TribeService(DataContext context)
+        public TribeService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<Tribe>();
+            _iUserSession = iUserSession;
         }
 
         public async Task<TribeRequest> GetTribe(PaginadoRequest PaginadoResponse)
@@ -52,7 +55,7 @@ namespace ProyectoBCP_API.Service.Impl
                 tribeToInsert.UsuarioActualiza = tribe.UsuarioActualiza;
                 tribeToInsert.FecIngreso = System.DateTime.Now;
                 tribeToInsert.FecActualiza = System.DateTime.Now;
-                tribeToInsert.UsuarioIngresa = tribe.UsuarioIngresa;
+                tribeToInsert.UsuarioIngresa = _iUserSession.Username;
                 tribeToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(tribeToInsert);
@@ -78,7 +81,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             Tribe tribeToDelete = await GetTribeById(id);
             tribeToDelete.FecActualiza = System.DateTime.Now;
-            tribeToDelete.UsuarioActualiza = tribe.UsuarioActualiza;
+            tribeToDelete.UsuarioActualiza = _iUserSession.Username;
             tribeToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(tribeToDelete);
             await _context.SaveChangesAsync();
@@ -93,7 +96,7 @@ namespace ProyectoBCP_API.Service.Impl
             tribeToUpd.Nombre = tribe.Nombre;
             tribeToUpd.Tipo = tribe.Tipo;
             tribeToUpd.FecActualiza = System.DateTime.Now;
-            tribeToUpd.UsuarioActualiza = tribe.UsuarioActualiza;
+            tribeToUpd.UsuarioActualiza = _iUserSession.Username;
             tribeToUpd.FlgActivo = tribe.FlgActivo;
 
             _dbSet.Update(tribeToUpd);

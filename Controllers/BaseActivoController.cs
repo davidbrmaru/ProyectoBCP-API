@@ -23,11 +23,11 @@ namespace ProyectoBCP_API.Controllers
             log = LogManager.GetLogger(typeof(BaseActivoController));
         }     
 
-        [HttpPost]
-        public async Task<BaseActivoRequest> PostAsync([FromBody] User user, [FromQuery] PaginadoRequest PaginadoResponse)
+        [HttpGet]
+        public async Task<BaseActivoRequest> GetBaseActivo([FromQuery] PaginadoRequest PaginadoResponse)
         {
             log.Info("Inicio Base de activos");
-           return await _activoService.GetBaseActivos(user.CodMatricula, PaginadoResponse);
+           return await _activoService.GetBaseActivos(PaginadoResponse);
         }
 
         [HttpGet]

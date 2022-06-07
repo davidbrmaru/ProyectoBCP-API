@@ -38,7 +38,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             TeamMember teamMemberToDelete = await GetTeamMemberById(id);
             teamMemberToDelete.FecActualiza = System.DateTime.Now;
-            teamMemberToDelete.UsuarioActualiza = teamMember.UsuarioActualiza;
+            teamMemberToDelete.UsuarioActualiza = _iUserSession.Username;
             teamMemberToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(teamMemberToDelete);
             await _context.SaveChangesAsync();
@@ -106,7 +106,7 @@ namespace ProyectoBCP_API.Service.Impl
             teamMemberUpdate.RolInsourcing = teamMember.RolInsourcing;
             teamMemberUpdate.Especialidad = teamMember.Especialidad;            
             teamMemberUpdate.FecActualiza = System.DateTime.Now;
-            teamMemberUpdate.UsuarioActualiza = teamMember.UsuarioActualiza;
+            teamMemberUpdate.UsuarioActualiza = _iUserSession.Username;
             teamMemberUpdate.FlgActivo = Constants.FlgActivo;
             _context.Update(teamMemberUpdate);
             _context.SaveChanges();

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
 
 
 namespace ProyectoBCP_API.Service.Impl
@@ -14,11 +15,13 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private readonly DataContext _context;
         private DbSet<Rol> _dbSet;
+        private IUserSession _iUserSession;
 
-        public RolService(DataContext context)
+        public RolService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<Rol>();
+            _iUserSession = iUserSession;
         }
 
 
@@ -53,7 +56,7 @@ namespace ProyectoBCP_API.Service.Impl
                 rolToInsert.UsuarioActualiza = rol.UsuarioActualiza;
                 rolToInsert.FecIngreso = System.DateTime.Now;
                 rolToInsert.FecActualiza = System.DateTime.Now;
-                rolToInsert.UsuarioIngresa = rol.UsuarioIngresa;
+                rolToInsert.UsuarioIngresa = _iUserSession.Username;
                 rolToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(rolToInsert);
@@ -73,7 +76,7 @@ namespace ProyectoBCP_API.Service.Impl
             rolToUpd.CodRol = rol.CodRol;
             rolToUpd.Nombre = rol.Nombre;
             rolToUpd.FecActualiza = System.DateTime.Now;
-            rolToUpd.UsuarioActualiza = rol.UsuarioActualiza;
+            rolToUpd.UsuarioActualiza = _iUserSession.Username;
             rolToUpd.FlgActivo = Constants.FlgActivo;
 
             _dbSet.Update(rolToUpd);
@@ -95,7 +98,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             Rol rolToDelete = await GetRolById(id);
             rolToDelete.FecActualiza = System.DateTime.Now;
-            rolToDelete.UsuarioActualiza = rol.UsuarioActualiza;
+            rolToDelete.UsuarioActualiza = _iUserSession.Username;
             rolToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(rolToDelete);
             await _context.SaveChangesAsync();

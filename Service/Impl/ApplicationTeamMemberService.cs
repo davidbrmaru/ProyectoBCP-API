@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
 using ProyectoBCP_API.Dto;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -14,11 +15,13 @@ namespace ProyectoBCP_API.Service.Impl
 
         private readonly DataContext _context;
         private DbSet<ApplicationTeamMember> _dbSet;
+        private IUserSession _iUserSession;
 
-        public ApplicationTeamMemberService(DataContext context)
+        public ApplicationTeamMemberService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<ApplicationTeamMember>();
+            _iUserSession = iUserSession;
         }
 
         public async Task<AllocationDto> InsertApplicationTeamMember(AllocationDto allocationDto)
@@ -36,8 +39,8 @@ namespace ProyectoBCP_API.Service.Impl
                             PorAsignado = a.porcentaje,
                             Comentario = a.comentario,
                             FecIngreso  = System.DateTime.Now,
-                            UsuarioIngresa = allocationDto.matricula
-                         }
+                            UsuarioIngresa = _iUserSession.Username
+                    }
                     ); 
                 }
             );

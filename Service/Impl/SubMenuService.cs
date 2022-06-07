@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -13,11 +14,13 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private readonly DataContext _context;
         private DbSet<SubMenu> _dbSet;
+        private IUserSession _iUserSession;
 
-        public SubMenuService(DataContext context)
+        public SubMenuService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<SubMenu>();
+            _iUserSession = iUserSession;
         }
         public async Task<SubMenuRequest> GetSubMenu(PaginadoRequest PaginadoResponse)
         {
@@ -50,7 +53,7 @@ namespace ProyectoBCP_API.Service.Impl
                 subMenuToInsert.UsuarioActualiza = subMenu.UsuarioActualiza;
                 subMenuToInsert.FecIngreso = System.DateTime.Now;
                 subMenuToInsert.FecActualiza = System.DateTime.Now;
-                subMenuToInsert.UsuarioIngresa = subMenu.UsuarioIngresa;
+                subMenuToInsert.UsuarioIngresa = _iUserSession.Username;
                 subMenuToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(subMenuToInsert);
@@ -71,7 +74,7 @@ namespace ProyectoBCP_API.Service.Impl
             SubMenuToUpd.Url = subMenu.Url;
             SubMenuToUpd.Icon = subMenu.Icon;
             SubMenuToUpd.FecActualiza = System.DateTime.Now;
-            SubMenuToUpd.UsuarioActualiza = subMenu.UsuarioActualiza;
+            SubMenuToUpd.UsuarioActualiza = _iUserSession.Username;
             SubMenuToUpd.FlgActivo = Constants.FlgActivo;
 
             _dbSet.Update(SubMenuToUpd);
@@ -95,7 +98,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             SubMenu subMenuToDelete = await GetSubMenuById(id);
             subMenuToDelete.FecActualiza = System.DateTime.Now;
-            subMenuToDelete.UsuarioActualiza = subMenu.UsuarioActualiza;
+            subMenuToDelete.UsuarioActualiza = _iUserSession.Username;
             subMenuToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(subMenuToDelete);
             await _context.SaveChangesAsync();

@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
 
 
 namespace ProyectoBCP_API.Service.Impl
@@ -14,11 +15,13 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private readonly DataContext _context;
         private DbSet<Menu> _dbSet;
+        private IUserSession _iUserSession;
 
-        public MenuService(DataContext context)
+        public MenuService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<Menu>();
+            _iUserSession = iUserSession;
         }
 
         public async Task<MenuRequest> GetMenu(PaginadoRequest PaginadoResponse)
@@ -49,10 +52,8 @@ namespace ProyectoBCP_API.Service.Impl
                 Menu menuToInsert = new Menu();
                 menuToInsert.CodMenu= menu.CodMenu;
                 menuToInsert.Nombre = menu.Nombre;
-                menuToInsert.UsuarioActualiza = menu.UsuarioActualiza;
                 menuToInsert.FecIngreso = System.DateTime.Now;
-                menuToInsert.FecActualiza = System.DateTime.Now;
-                menuToInsert.UsuarioIngresa = menu.UsuarioIngresa;
+                menuToInsert.UsuarioIngresa = _iUserSession.Username;
                 menuToInsert.Tittle = true;
 
                 _dbSet.Add(menuToInsert);
@@ -71,7 +72,7 @@ namespace ProyectoBCP_API.Service.Impl
             menuToUpd.CodMenu = menu.CodMenu;
             menuToUpd.Nombre = menu.Nombre;
             menuToUpd.FecActualiza = System.DateTime.Now;
-            menuToUpd.UsuarioActualiza = menu.UsuarioActualiza;
+            menuToUpd.UsuarioActualiza = _iUserSession.Username;
             menuToUpd.Tittle = true;
 
             _dbSet.Update(menuToUpd);
@@ -93,7 +94,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             Menu menuToDelete = await GetMenuById(id);
             menuToDelete.FecActualiza = System.DateTime.Now;
-            menuToDelete.UsuarioActualiza = menu.UsuarioActualiza;
+            menuToDelete.UsuarioActualiza = _iUserSession.Username;
             //en la tabla se definio como BIT
             menuToDelete.Tittle = false  ;
             _dbSet.Update(menuToDelete);

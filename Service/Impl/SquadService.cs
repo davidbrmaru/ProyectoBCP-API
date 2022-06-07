@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
 
 
 namespace ProyectoBCP_API.Service.Impl
@@ -14,11 +15,13 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private readonly DataContext _context;
         private DbSet<Squad> _dbSet;
+        private IUserSession _iUserSession;
 
-        public SquadService(DataContext context)
+        public SquadService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<Squad>();
+            _iUserSession = iUserSession;
         }
 
         public async Task<SquadRequest> GetSquad(PaginadoRequest PaginadoResponse)
@@ -53,7 +56,7 @@ namespace ProyectoBCP_API.Service.Impl
                 squadToInsert.UsuarioActualiza = squad.UsuarioActualiza;
                 squadToInsert.FecIngreso = System.DateTime.Now;
                 squadToInsert.FecActualiza = System.DateTime.Now;
-                squadToInsert.UsuarioIngresa = squad.UsuarioIngresa;
+                squadToInsert.UsuarioIngresa = _iUserSession.Username;
                 squadToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(squadToInsert);
@@ -72,7 +75,7 @@ namespace ProyectoBCP_API.Service.Impl
             squadToUpd.IdTribe= squad.IdTribe;
             squadToUpd.Nombre = squad.Nombre;
             squadToUpd.FecActualiza = System.DateTime.Now;
-            squadToUpd.UsuarioActualiza = squad.UsuarioActualiza;
+            squadToUpd.UsuarioActualiza = _iUserSession.Username;
             squadToUpd.FlgActivo = Constants.FlgActivo;
 
             _dbSet.Update(squadToUpd);
@@ -93,7 +96,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             Squad squadToDelete = await GetSquadById(id);
             squadToDelete.FecActualiza = System.DateTime.Now;
-            squadToDelete.UsuarioActualiza = squad.UsuarioActualiza;
+            squadToDelete.UsuarioActualiza = _iUserSession.Username;
             squadToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(squadToDelete);
             await _context.SaveChangesAsync();

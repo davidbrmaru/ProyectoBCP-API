@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Models.Request;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -13,10 +14,12 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private DataContext _context;
         private DbSet<ChapterLeader> _dbSet;
-        public ChapterLeaderService(DataContext context)
+        private IUserSession _iUserSession;
+        public ChapterLeaderService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<ChapterLeader>();
+            _iUserSession = iUserSession;
         }
         public async Task<ChapterLeaderRequest> GetChapterLeader(PaginadoRequest PaginadoResponse)
         {
@@ -56,7 +59,7 @@ namespace ProyectoBCP_API.Service.Impl
                 chapterLeaderToInsert.ApellidoMaterno = chapter.ApellidoMaterno;
                 chapterLeaderToInsert.NombreChapter = chapter.NombreChapter;
                 chapterLeaderToInsert.FecIngreso = System.DateTime.Now;
-                chapterLeaderToInsert.UsuarioIngresa = chapter.UsuarioIngresa;
+                chapterLeaderToInsert.UsuarioIngresa = _iUserSession.Username;
                 chapterLeaderToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(chapterLeaderToInsert);
@@ -78,7 +81,7 @@ namespace ProyectoBCP_API.Service.Impl
             chapterLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterLeaderToUp.FecActualiza = System.DateTime.Now;
-            chapterLeaderToUp.UsuarioActualiza = chapter.UsuarioActualiza;
+            chapterLeaderToUp.UsuarioActualiza = _iUserSession.Username;
 
             _dbSet.Update(chapterLeaderToUp);
             await _context.SaveChangesAsync();
@@ -88,7 +91,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             ChapterLeader chapterLeaderToDelete = await GetChapterById(id);
             chapterLeaderToDelete.FecActualiza = System.DateTime.Now;
-            chapterLeaderToDelete.UsuarioActualiza = chapter.UsuarioActualiza;
+            chapterLeaderToDelete.UsuarioActualiza = _iUserSession.Username;
             chapterLeaderToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(chapterLeaderToDelete);
             await _context.SaveChangesAsync();

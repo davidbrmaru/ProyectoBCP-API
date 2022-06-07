@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
+using ProyectoBCP_API.Jwt.Session;
 
 
 namespace ProyectoBCP_API.Service.Impl
@@ -15,11 +16,13 @@ namespace ProyectoBCP_API.Service.Impl
 
         private readonly DataContext _context;
         private DbSet<User> _dbSet;
+        private IUserSession _iUserSession;
 
-        public UserService(DataContext context)
+        public UserService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<User>();
+            _iUserSession = iUserSession;
         }
 
 
@@ -59,7 +62,7 @@ namespace ProyectoBCP_API.Service.Impl
                 userToInsert.UsuarioActualiza = user.UsuarioActualiza;
                 userToInsert.FecIngreso = System.DateTime.Now;
                 userToInsert.FecActualiza = System.DateTime.Now;
-                userToInsert.UsuarioIngresa = user.UsuarioIngresa;
+                userToInsert.UsuarioIngresa = _iUserSession.Username;
                 userToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(userToInsert);
@@ -78,7 +81,7 @@ namespace ProyectoBCP_API.Service.Impl
             userToUpd.Password = user.Password;
             userToUpd.IdRol = user.IdRol;
             userToUpd.FecActualiza = System.DateTime.Now;
-            userToUpd.UsuarioActualiza = user.UsuarioActualiza;
+            userToUpd.UsuarioActualiza = _iUserSession.Username;
             userToUpd.FlgActivo = Constants.FlgActivo;
 
             _dbSet.Update(userToUpd);
@@ -98,7 +101,7 @@ namespace ProyectoBCP_API.Service.Impl
           {
                 User userToDelete = await GetUserById(id);
                 userToDelete.FecActualiza = System.DateTime.Now;
-                userToDelete.UsuarioActualiza = user.UsuarioActualiza;
+                userToDelete.UsuarioActualiza = _iUserSession.Username;
                 userToDelete.FlgActivo = Constants.FlgDesactivo;
                 _dbSet.Update(userToDelete);
                 await _context.SaveChangesAsync();

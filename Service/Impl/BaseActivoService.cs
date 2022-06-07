@@ -6,6 +6,7 @@ using ProyectoBCP_API.Models.Request;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -13,14 +14,16 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private DataContext _context;
         private DbSet<BaseActivo> _dbSet;
+        private IUserSession _iUserSession;
 
-        public BaseActivoService(DataContext context)
+        public BaseActivoService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<BaseActivo>();
+            _iUserSession = iUserSession;
         }
 
-        public async Task<BaseActivoRequest> GetBaseActivos(string matricula, PaginadoRequest PaginadoResponse)
+        public async Task<BaseActivoRequest> GetBaseActivos(PaginadoRequest PaginadoResponse)
         {
             int beginRecord = (PaginadoResponse.PageNumber - 1) * PaginadoResponse.PageSize;
 
@@ -29,7 +32,7 @@ namespace ProyectoBCP_API.Service.Impl
             SqlParameter matriculaParam = new SqlParameter
             {
                 ParameterName = "MATRICULA",
-                Value = matricula,
+                Value = _iUserSession.Username,
                 Direction = System.Data.ParameterDirection.Input
             };
 

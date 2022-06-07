@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using ProyectoBCP_API.Helpers;
 using ProyectoBCP_API.Models.Request;
+using ProyectoBCP_API.Jwt.Session;
 
 namespace ProyectoBCP_API.Service.Impl
 {
@@ -13,10 +14,12 @@ namespace ProyectoBCP_API.Service.Impl
     {
         private DataContext _context;
         private DbSet<ChapterAreaLeader> _dbSet;
-        public ChapterAreaLeaderService(DataContext context)
+        private IUserSession _iUserSession;
+        public ChapterAreaLeaderService(DataContext context, IUserSession iUserSession)
         {
             _context = context;
             _dbSet = context.Set<ChapterAreaLeader>();
+            _iUserSession = iUserSession;
         }
         public async Task<ChapterAreaLeaderRequest> GetChapterAreaLeader(PaginadoRequest PaginadoResponse)
         {
@@ -50,7 +53,7 @@ namespace ProyectoBCP_API.Service.Impl
                 chapterAreaLeaderToInsert.ApellidoPaterno = chapter.ApellidoPaterno;
                 chapterAreaLeaderToInsert.ApellidoMaterno = chapter.ApellidoMaterno;
                 chapterAreaLeaderToInsert.FecIngreso = System.DateTime.Now;
-                chapterAreaLeaderToInsert.UsuarioIngresa = chapter.UsuarioIngresa;
+                chapterAreaLeaderToInsert.UsuarioIngresa = _iUserSession.Username;
                 chapterAreaLeaderToInsert.FlgActivo = Constants.FlgActivo;
 
                 _dbSet.Add(chapterAreaLeaderToInsert);
@@ -70,7 +73,7 @@ namespace ProyectoBCP_API.Service.Impl
             chapterAreaLeaderToUp.ApellidoPaterno = chapter.ApellidoPaterno;
             chapterAreaLeaderToUp.ApellidoMaterno = chapter.ApellidoMaterno;
             chapterAreaLeaderToUp.FecActualiza = System.DateTime.Now;
-            chapterAreaLeaderToUp.UsuarioActualiza=chapter.UsuarioActualiza;
+            chapterAreaLeaderToUp.UsuarioActualiza= _iUserSession.Username;
             
             _dbSet.Update(chapterAreaLeaderToUp);
             await _context.SaveChangesAsync();
@@ -80,7 +83,7 @@ namespace ProyectoBCP_API.Service.Impl
         {
             ChapterAreaLeader chapterAreaLeaderToDelete = await GetChapterById(id);
             chapterAreaLeaderToDelete.FecActualiza = System.DateTime.Now;
-            chapterAreaLeaderToDelete.UsuarioActualiza = chapter.UsuarioActualiza;
+            chapterAreaLeaderToDelete.UsuarioActualiza = _iUserSession.Username;
             chapterAreaLeaderToDelete.FlgActivo = Constants.FlgDesactivo;
             _dbSet.Update(chapterAreaLeaderToDelete);
             //_dbSet.Remove(chapterAreaLeaderToDelete);
